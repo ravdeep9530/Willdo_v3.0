@@ -1,0 +1,975 @@
+<html lang="en">
+<head>
+  <title>WillDo Customizer</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+  <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+         rel = "stylesheet">
+         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
+         <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+         <link href ="{{ url_for('static', filename = 'css/style.css') }}"
+                rel = "stylesheet">
+
+
+
+
+    <script type = "text/javascript"
+       src = "{{ url_for('static', filename = 'js/angular.js') }}" ></script>
+       <script type = "text/javascript"
+          src = "{{ url_for('static', filename = 'js/jquery.min.v3.js') }}" ></script>
+       <script type = "text/javascript"
+          src = "{{ url_for('static', filename = 'js/web_custom_js.js') }}" ></script>
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color: #f2f2f2;
+      padding: 25px;
+    }
+  </style>
+</head>
+<body ng-app="susApp" ng-init="rate=0;tam=0;tim=1;" ng-controller="WillDOCtrl">
+<div id="loader" ></div>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><b><font style="color:Red">WillDo</font> <font style="color:Yellow">Customizer</font></b></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#"><b>DASHBOARD</b></a></li>
+        <li class="dropdown">
+       <a class="dropdown-toggle" data-toggle="dropdown" href="#"><b>JOBS</b>
+       <span class="caret"></span></a>
+       <ul class="dropdown-menu">
+         <li><a href="#" data-target="#newJob" data-toggle="modal">New Job</a></li>
+         <li><a href="#" data-target="#manageJob" data-toggle="modal" ng-click="getJobList()">Manage Jobs</a></li>
+
+       </ul>
+     </li>
+     <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><b>CONNECTIONS</b>
+    <span class="caret"></span></a>
+    <ul class="dropdown-menu">
+      <li><a href="#" data-target="#newCon" data-toggle="modal">New Connection</a></li>
+      <li><a href="#" data-target="#manageCon" data-toggle="modal" ng-click="getConList()" >Manage Connection</a></li>
+
+    </ul>
+  </li>
+  <li class="dropdown">
+ <a class="dropdown-toggle" data-toggle="dropdown" href="#" ><b>PARAMETERS</b>
+ <span class="caret"></span></a>
+ <ul class="dropdown-menu">
+   <li><a href="#" data-target="#newParam" data-toggle="modal" ng-click="getJobList()">New Parameter</a></li>
+   <li><a href="#" data-target="#manageParam" data-toggle="modal" ng-click="getParamList()">Manage Parameter</a></li>
+
+ </ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#"><b>EMAIL</b>
+<span class="caret"></span></a>
+<ul class="dropdown-menu">
+ <li><a href="#" data-target="#newEmail" data-toggle="modal">New SMTP</a></li>
+ <li><a href="#" data-target="#manageEmail" data-toggle="modal" ng-click="getEmailList()">Manage SMTP</a></li>
+
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#"><b>HISTORY</b>
+<span class="caret"></span></a>
+<ul class="dropdown-menu">
+ <li><a href="#" data-target="#manageHistory" data-toggle="modal">View History</a></li>
+
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#"><b>LOGS</b>
+<span class="caret"></span></a>
+<ul class="dropdown-menu">
+ <li><a href="#" data-target="#viewLog" data-toggle="modal" ng-click="getJson('viewLog','Log','key','log')">View Log</a></li>
+  <li><a href="#" data-target="#manageHistory" data-toggle="modal">Clear Log</a></li>
+
+</ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="jumbotron">
+  <div class="container-fluid">
+    <div class="Row">
+      <div class="col-sm-3">
+    <div class=" panel   panel-default">
+      <div class="panel-heading">Current Job Queue</div>
+      <div class="table-responsive panel-body">
+      <table class="table table-bordered table-hover pull-left" style="background-color:white; box-shadow: 1px 1px 1px black;">
+          <thead>
+            <tr style="background-color:#964059; color:white;">
+                <th>Job Name</th>
+                <th>scheuled Time</th>
+                <th>Remaining Minutes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="(key,data) in ghData">
+              <td>//key//</td>
+              <td>//data['scheduledTime']//</td>
+              <td>//(data['remainingSec']/60)//</td>
+            </tr>
+          </tbody>
+      </table></div>
+    </div></div></div>
+  </div>
+</div>
+
+<div class="container-fluid bg-3 text-center">
+  <h3>Some of my Work</h3><br>
+  <div class="row">
+    <div class="col-sm-3">
+
+      <p>Some text..</p>
+      <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
+    </div>
+    <div class="col-sm-3">
+      <p>Some text..</p>
+      <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
+    </div>
+    <div class="col-sm-3">
+      <p>Some text..</p>
+      <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
+    </div>
+    <div class="col-sm-3">
+      <p>Some text..</p>
+      <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
+    </div>
+  </div>
+</div><br>
+
+<div class="container-fluid bg-3 text-center">
+  <div class="row">
+    <div class="col-sm-3">
+      <p>Some text..</p>
+      <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
+    </div>
+    <div class="col-sm-3">
+      <p>Some text..</p>
+      <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
+    </div>
+    <div class="col-sm-3">
+      <p>Some text..</p>
+      <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
+    </div>
+    <div class="col-sm-3">
+      <p>Some text..</p>
+      <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
+    </div>
+  </div>
+</div><br><br>
+
+<footer class="container-fluid text-center">
+  <p>Footer Text</p>
+</footer>
+<div id="newJob" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><b>New Job</b></h4>
+      </div>
+      <div class="modal-body">
+        <div class="panel-body">
+        <form action="/submitForm/Jobs/jobName" id="newJobForm" method="POST" onsubmit="event.preventDefault();submitForm(this);">
+          <div class="form-group col-sm-4">
+            <label for="email" ng-init="getConList()">Connection Name:</label>
+            <select name="conName" class="form-control" required>
+                <option ng-repeat="(key,data) in conData" value="//key//">//key//</option>
+            </select>
+          </div>
+ <div class="form-group col-sm-4">
+   <label for="email">Job Name:</label>
+   <input type="text" name="jobName" placeholder="Job Name" class="form-control" id="email" required>
+ </div>
+ <div class="form-group col-sm-4">
+   <label for="datepicker-1">Start Date:</label>
+   <input type="text" name="startDate" placeholder="Start Date" class="form-control datepicker-1"  required>
+ </div>
+ <div class="form-group col-sm-4">
+   <label for="pwd">End Date:</label>
+   <input type="text" name="endDate" placeholder="End Date" class="form-control datepicker-1" id="" required>
+ </div>
+ <div class="form-group col-sm-4">
+   <label for="pwd">Schedule Time:</label>
+   <input type="time" name="scheuledTime" class="form-control" id="pwd" required>
+ </div>
+ <div class="form-group col-sm-4 hide">
+   <label for="pwd">Last Run Date:</label>
+   <input type="text" name="lastRunDate" value="-1" class="form-control" id="pwd" required>
+ </div>
+ <div class="form-group col-sm-4 hide">
+   <label for="pwd">Type:</label>
+   <input type="text" name="type" value="" class="form-control" id="pwd" >
+ </div>
+ <div class="form-group col-sm-4 hide">
+   <label for="pwd">Is Active:</label>
+   <input type="text" name="isActive" value="1" class="form-control" id="pwd" required>
+ </div>
+ <div class="form-group col-sm-4 hide">
+   <label for="pwd">Job Statement:</label>
+   <input type="text" name="jobStatement" value="" class="form-control" id="pwd" >
+ </div>
+ <div class="form-group col-sm-4">
+   <label for="email" ng-init="getIntervalList()">Interval:</label>
+   <select class="form-control" name="interval" required>
+       <option ng-repeat="(key,data) in intData" value="//data['val']//">//key//</option>
+   </select>
+ </div>
+ <div class="form-group col-sm-12">
+   <label for="pwd">Description:</label>
+   <textarea type="time" name="description" class="form-control" id="pwd" row="3"></textarea>
+ </div>
+<div class="col-sm-12 ">
+ <button type="submit" class="btn btn-primary pull-right btn-sm">Submit</button>
+</div>
+</form></div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div id="manageJob" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><b>Manage Job</b></h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-12 ">
+            <div class="col-sm-4 table-responsive"  style="overflow-y: scroll; height:300px; border-width: 5px; border-right-style:solid;" ng-init="getJobList()">
+              <table class="table table-bordered table-hover">
+                <tr><th>Jobs</th></tr>
+                <tr ng-repeat="(key,data) in jobData"><td><a href="#" ng-click="getJson('job','Jobs',key,'jobName')">//key//</a> &nbsp;&nbsp;<i class='fas fa-trash-alt' style="color:red;cursor: pointer;" ng-click="deleteJson('Jobs',key,'getJobList();','job')"> </i>
+                &nbsp;&nbsp;<i class='fas fa-plus-circle' style="color:blue;cursor: pointer;" data-target="#manageStep"
+                data-toggle="modal" ng-click="getStepList(key)"> </i></td></tr>
+
+              </table>
+            </div>
+        <div class="panel-body col-sm-8" id="manageJob">
+        <form action="/submitForm/JobUpdate/jobName" method="POST" id="job" onsubmit="event.preventDefault();submitForm(this);" onreset="this.reset()">
+          <div class="form-group col-sm-4">
+            <label for="email" ng-init="getConList()">Connection Name:</label>
+            <select class="form-control" name="conName" required ng-value="frData['job']['conName']">
+
+                <option ng-repeat="(key,data) in conData" ng-value="key">//key//</option>
+            </select>
+          </div>
+ <div class="form-group col-sm-4">
+   <label for="email">Job Name:</label>
+   <input type="text" name="jobName" class="form-control"  ng-value="frData['job']['jobName']" readonly id="jobName" required>
+ </div>
+ <div class="form-group col-sm-4">
+   <label for="pwd">Start Date:</label>
+   <input type="text" class="form-control datepicker-1" placeholder="Start Date" name="startDate" id="pwd" ng-value="frData['job']['startDate']"  required>
+ </div>
+ <div class="form-group col-sm-4">
+   <label for="pwd">End Date:</label>
+   <input type="text" class="form-control datepicker-1" id="pwd" placeholder="End Date" name="endDate" ng-value="frData['job']['endDate']"  required>
+ </div>
+ <div class="form-group col-sm-4">
+   <label for="pwd">Schedule Time:</label>
+   <input type="time" class="form-control" id="pwd"  name="scheuledTime" ng-value="frData['job']['scheuledTime']"  required>
+ </div>
+ <div class="form-group col-sm-4 hide">
+   <label for="pwd">Last Run Date:</label>
+   <input type="text" name="lastRunDate" value="-1" class="form-control" id="pwd" required>
+ </div>
+ <div class="form-group col-sm-4 hide">
+   <label for="pwd">Type:</label>
+   <input type="text" name="type" ng-value="frData['job']['type']" class="form-control" id="pwd" >
+ </div>
+ <div class="form-group col-sm-4 ">
+   <label for="pwd">Is Active:</label>
+   <input type="checkbox" name="isActive"  ng-checked="frData['job']['isActive']" >
+ </div>
+ <div class="form-group col-sm-4 hide">
+   <label for="pwd">Job Statement:</label>
+   <input type="text" name="jobStatement"  ng-value="frData['job']['jobStatement']" class="form-control" id="pwd" >
+ </div>
+ <div class="form-group col-sm-5">
+   <label for="email" ng-init="getIntervalList()">Interval:</label>
+   <select class="form-control" name="interval" required ng-value="frData['job']['interval']">
+       <option ng-repeat="(key,data) in intData" value="//data['val']//" >//key//</option>
+   </select>
+ </div>
+ <div class="form-group col-sm-7">
+   <label for="pwd">Description:</label>
+   <textarea type="time" name="description" class="form-control" ng-value="frData['job']['description']" id="pwd" row="3"></textarea>
+ </div>
+<div class="col-sm-12 ">
+ <span><button type="submit" class="btn btn-primary pull-right btn-sm">Update</button>&nbsp;	&nbsp;	</span>
+</div>
+</form></div></div></div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div id="newCon" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><b>New Connection</b></h4>
+      </div>
+      <div class="modal-body">
+        <div class="panel-body">
+        <form action="/submitForm/newCon/conName" method="POST" id="newCon" onsubmit="event.preventDefault();submitForm(this);">
+          <div class="form-group col-sm-4">
+            <label for="email" ng-init="getDriverList()">Driver:</label>
+            <select class="form-control" required name="connType">
+                <option ng-repeat="(key,data) in driverData" value="//key//">//key//</option>
+            </select>
+          </div>
+ <div class="form-group col-sm-4">
+   <label for="email">Connection Name:</label>
+   <input type="text" placeholder="Connection Name" name="conName" class="form-control" id="email" required>
+ </div>
+ <div class="form-group col-sm-4">
+   <label for="pwd">Server:</label>
+   <input type="text" placeholder="Server" class="form-control" id="pwd" name="server" required>
+ </div>
+ <div class="form-group col-sm-4">
+   <label for="pwd">User Name:</label>
+   <input type="text" name="user" placeholder="User Name" class="form-control" id="pwd" required>
+ </div>
+ <div class="form-group col-sm-4">
+   <label for="pwd">Password:</label>
+   <input type="text" name="password" placeholder="Password" class="form-control" id="pwd" required>
+ </div>
+ <div class="form-group col-sm-4">
+   <label for="email" >Port:</label>
+   <input type="text" name="port" placeholder="Port" class="form-control" id="pwd" required>
+
+ </div>
+ <div class="form-group col-sm-4">
+   <label for="email" >Database:</label>
+   <input type="text" name="database" placeholder="Database" class="form-control" id="pwd" required>
+
+ </div>
+ <div class="form-group col-sm-4">
+   <label for="email" >Use Unicode:</label>
+   <select class="form-control" name="use_unicode" required>
+       <option  value="True">True</option>
+           <option  value="False">False</option>
+   </select>
+
+ </div>
+ <div class="form-group col-sm-4">
+   <label for="email" >Charset:</label>
+   <select class="form-control" name="charset" required>
+       <option  value="utf8">utf8</option>
+   </select>
+
+ </div>
+ <div class="col-sm-12 ">
+  <button type="button" class="btn btn-danger btn-block">Test Conection</button>
+ </div>
+
+<div class="col-sm-12 ">
+  <hr/>
+ <button type="submit" class="btn btn-primary pull-right btn-sm">Submit</button>
+</div>
+</form></div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div id="manageCon" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><b>Manage Connection</b></h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-12 ">
+            <div class="col-sm-3 table-responsive" style=" border-width: 5px; border-right-style:solid;" ng-init="getJobList()">
+              <table class="table table-bordered table-hover">
+                <tr><th>Connections</th></tr>
+                <tr ng-repeat="(key,data) in conData"><td><a href="#" ng-click="getJson('updateCon','Connections',key,'conName')">//key//</a> &nbsp;&nbsp;<i class='fas fa-trash-alt' style="color:red;cursor: pointer;" ng-click="deleteJson('Connections',key,'getConList();','updateCon')"> </i></td></tr>
+
+              </table>
+            </div>
+        <div class="panel-body col-sm-9">
+          <form action="/submitForm/updateCon/conName" method="POST" id="updateCon" onsubmit="event.preventDefault();submitForm(this);">
+            <div class="form-group col-sm-4">
+              <label for="email" ng-init="getDriverList()">Driver:</label>
+              <select class="form-control" name="connType"  required ng-value="frData['updateCon']['connType']">
+                  <option ng-repeat="(key,data) in driverData" value="//key//">//key//</option>
+              </select>
+            </div>
+   <div class="form-group col-sm-4">
+     <label for="email">Connection Name:</label>
+     <input type="text" placeholder="Connection Name" name="conName" ng-value="frData['updateCon']['conName']" class="form-control" id="email" required>
+   </div>
+   <div class="form-group col-sm-4">
+     <label for="pwd">Server:</label>
+     <input type="text" placeholder="Server" name="server" ng-value="frData['updateCon']['server']" class="form-control" id="pwd" required>
+   </div>
+   <div class="form-group col-sm-4">
+     <label for="pwd">User Name:</label>
+     <input type="text" placeholder="User Name" name="user" ng-value="frData['updateCon']['user']" class="form-control" id="pwd" required>
+   </div>
+   <div class="form-group col-sm-4">
+     <label for="pwd">Password:</label>
+     <input type="text" placeholder="Password" name="password" ng-value="frData['updateCon']['password']" class="form-control" id="pwd" required>
+   </div>
+   <div class="form-group col-sm-4">
+     <label for="email" >Port:</label>
+     <input type="text" placeholder="Port" name="port" ng-value="frData['updateCon']['port']" class="form-control" id="pwd" required>
+
+   </div>
+   <div class="form-group col-sm-4">
+     <label for="email" >Database:</label>
+     <input type="text" placeholder="Database" name="database" ng-value="frData['updateCon']['database']" class="form-control" id="pwd" required>
+
+   </div>
+   <div class="form-group col-sm-4">
+     <label for="email" >Use Unicode:</label>
+     <select class="form-control" name="use_unicode" ng-value="frData['updateCon']['use_unicode']"  required>
+         <option  value="True">True</option>
+             <option  value="False">False</option>
+     </select>
+
+   </div>
+   <div class="form-group col-sm-4">
+     <label for="email" >Charset:</label>
+     <select class="form-control" name="charset" ng-value="frData['updateCon']['charset']" required>
+         <option  value="utf8">utf8</option>
+     </select>
+
+   </div>
+   <div class="col-sm-12 ">
+    <button type="button" class="btn btn-danger btn-block">Test Conection</button>
+   </div>
+
+  <div class="col-sm-12 ">
+    <hr/>
+   <button type="submit" class="btn btn-primary pull-right btn-sm">Submit</button>
+  </div>
+  </form></div></div></div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+
+<div id="newParam" class="modal fade" role="dialog">
+  <div class="modal-dialog ">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><b>New Parameter</b></h4>
+      </div>
+      <div class="modal-body">
+        <div class="panel-body ">
+        <form action="/submitForm/newParam/paramName" method="POST" id="newParam" onsubmit="event.preventDefault();submitForm(this);">
+          <div class="form-group col-sm-4">
+            <label for="email">Parameter Name:</label>
+            <input type="text" placeholder="Parameter Name" name="paramName" class="form-control" id="email" required>
+          </div>
+          <div class="form-group col-sm-4">
+            <label for="email" >Jobs:</label>
+            <select class="form-control" required name="jobName">
+                <option ng-repeat="(key,data) in jobData" value="//key//">//key//</option>
+            </select>
+          </div>
+ <div class="form-group col-sm-4">
+   <label for="email">Parameter Type:</label>
+   <select class="form-control" required name="paramType">
+       <option  value="1">Input Type</option>
+        <option  value="2">Output Type</option>
+   </select></div>
+ <div class="form-group col-sm-12">
+   <label for="pwd">Parameter Value:</label>
+   <textarea row="3" placeholder="Parameter Value" class="form-control" id="pwd" name="paramValue" ></textarea>
+ </div>
+ <div class="form-group col-sm-4 hide">
+   <label for="pwd">paramSubType:</label>
+   <input type="text" name="paramSubType" placeholder="User Name" value="-1" class="form-control" id="pwd" required>
+ </div>
+ <div class="form-group col-sm-4 hide">
+   <label for="pwd">Step Name:</label>
+   <input type="text" name="stepName" placeholder="Step Name:" class="form-control" id="pwd" value="" >
+ </div>
+
+
+<div class="col-sm-12 ">
+  <hr/>
+ <button type="submit" class="btn btn-primary pull-right btn-sm">Submit</button>
+</div>
+</form></div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+<div id="manageParam" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><b>Manage Parameter</b></h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-12 ">
+            <div class="col-sm-3 table-responsive" style=" border-width: 5px; border-right-style:solid; height:400px; overflow-y: Auto;" ng-init="getParamList()">
+              <table class="table table-bordered table-hover">
+                <tr><th>Parameters</th></tr>
+                <tr ng-repeat="(key,data) in paramData"><td><a href="#" ng-click="getJson('updateParam','Parameters',key,'paramName')">//key//</a> &nbsp;&nbsp;<i class='fas fa-trash-alt' style="color:red;cursor: pointer;" ng-click="deleteJson('Parameters',key,'getParamList();','updateParam')"> </i></td></tr>
+
+              </table>
+            </div>
+        <div class="panel-body col-sm-9">
+          <form action="/submitForm/updateParam/paramName" method="POST" id="updateParam" onsubmit="event.preventDefault();submitForm(this);">
+            <div class="form-group col-sm-4">
+              <label for="email">Parameter Name:</label>
+              <input type="text" placeholder="Parameter Name" ng-value="frData['updateParam']['paramName']" name="paramName" class="form-control" id="email" required>
+            </div>
+            <div class="form-group col-sm-4">
+              <label for="email" >Jobs:</label>
+              <select class="form-control" required name="jobName" ng-value="frData['updateParam']['jobName']">
+                  <option ng-repeat="(key,data) in jobData" value="//key//">//key//</option>
+              </select>
+            </div>
+   <div class="form-group col-sm-4">
+     <label for="email">Parameter Type:</label>
+     <select class="form-control" required name="paramType" ng-value="frData['updateParam']['paramType']">
+         <option  value="1">Input Type</option>
+          <option  value="2">Output Type</option>
+     </select></div>
+   <div class="form-group col-sm-12">
+     <label for="pwd">Parameter Value:</label>
+     <textarea row="3" placeholder="Parameter Value" class="form-control" id="pwd" name="paramValue" ng-value="frData['updateParam']['paramValue']" ></textarea>
+   </div>
+   <div class="form-group col-sm-4 hide">
+     <label for="pwd">paramSubType:</label>
+     <input type="text" name="paramSubType" placeholder="User Name" ng-value="frData['updateParam']['paramSubType']" value="-1" class="form-control" id="pwd" required>
+   </div>
+   <div class="form-group col-sm-4 hide">
+     <label for="pwd">Step Name:</label>
+     <input type="text" name="stepName" placeholder="Step Name:" ng-value="frData['updateParam']['stepName']" class="form-control" id="pwd" value="" >
+   </div>
+
+
+  <div class="col-sm-12 ">
+    <hr/>
+   <button type="submit" class="btn btn-primary pull-right btn-sm">Submit</button>
+  </div>
+  </form></div></div></div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+<div id="newEmail" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><b>New SMTP</b></h4>
+      </div>
+      <div class="modal-body">
+        <div class="panel-body">
+        <form action="/submitForm/updateEmail/emailName" method="POST" id="newEmail" onsubmit="event.preventDefault();submitForm(this);">
+
+          <div class="form-group col-sm-4">
+            <label for="email">SMTP Name:</label>
+            <input type="text" placeholder="Connection Name" name="emailName" class="form-control" id="email" required>
+          </div>
+          <div class="form-group col-sm-4">
+            <label for="pwd">Server:</label>
+            <input type="text" placeholder="Server" class="form-control" id="pwd" name="emailServer" required>
+          </div>
+          <div class="form-group col-sm-4">
+            <label for="pwd">User Name:</label>
+            <input type="text" name="emailUser" placeholder="User Name" class="form-control" id="pwd" required>
+          </div>
+          <div class="form-group col-sm-4">
+            <label for="pwd">Password:</label>
+            <input type="text" name="emailPassword" placeholder="Password" class="form-control" id="pwd" required>
+          </div>
+          <div class="form-group col-sm-4">
+            <label for="email" >Port:</label>
+            <input type="text" name="emailPort" placeholder="Port" class="form-control" id="pwd" required>
+
+          </div>
+          <div class="form-group col-sm-4">
+            <label for="email" >Display Name:</label>
+            <input type="text" name="emailTitle" placeholder="Display Name" class="form-control" id="pwd" required>
+
+          </div>
+
+
+<div class="col-sm-12 ">
+  <hr/>
+ <button type="submit" class="btn btn-primary pull-right btn-sm">Submit</button>
+</div>
+</form></div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div id="manageEmail" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><b>Manage Email</b></h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-12 ">
+            <div class="col-sm-3 table-responsive" style=" border-width: 5px; border-right-style:solid; height:400px; overflow-y: Auto;" ng-init="getEmailList()">
+              <table class="table table-bordered table-hover">
+                <tr><th>Email SMTP</th></tr>
+                <tr ng-repeat="(key,data) in emailData"><td><a href="#" ng-click="getJson('updateEmail','Email',key,'emailName')">//key//</a> &nbsp;&nbsp;<i class='fas fa-trash-alt' style="color:red;cursor: pointer;" ng-click="deleteJson('Email',key,'getEmailList();','updateEmail')"> </i></td></tr>
+
+              </table>
+            </div>
+        <div class="panel-body col-sm-9">
+          <form action="/submitForm/updateEmail/emailName" method="POST" id="updateEmail" onsubmit="event.preventDefault();submitForm(this);">
+
+
+
+    <div class="form-group col-sm-4">
+      <label for="email">SMTP Name:</label>
+      <input type="text" placeholder="Connection Name" name="emailName" ng-value="frData['updateEmail']['emailName']" class="form-control" id="email" required>
+    </div>
+    <div class="form-group col-sm-4">
+      <label for="pwd">Server:</label>
+      <input type="text" placeholder="Server" class="form-control" id="pwd" ng-value="frData['updateEmail']['emailServer']" name="emailServer" required>
+    </div>
+    <div class="form-group col-sm-4">
+      <label for="pwd">User Name:</label>
+      <input type="text" name="emailUser" placeholder="User Name" class="form-control" ng-value="frData['updateEmail']['emailUser']" id="pwd" required>
+    </div>
+    <div class="form-group col-sm-4">
+      <label for="pwd">Password:</label>
+      <input type="text" name="emailPassword" placeholder="Password" class="form-control" ng-value="frData['updateEmail']['emailPassword']" id="pwd" required>
+    </div>
+    <div class="form-group col-sm-4">
+      <label for="email" >Port:</label>
+      <input type="text" name="emailPort" placeholder="Port" class="form-control" ng-value="frData['updateEmail']['emailPort']" id="pwd" required>
+
+    </div>
+    <div class="form-group col-sm-4">
+      <label for="email" >Display Name:</label>
+      <input type="text" name="emailTitle" placeholder="Display Name" class="form-control" ng-value="frData['updateEmail']['emailTitle']" id="pwd" required>
+
+    </div>
+
+  <div class="col-sm-12 ">
+    <hr/>
+   <button type="submit" class="btn btn-primary pull-right btn-sm">Submit</button>
+  </div>
+  </form></div></div></div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+
+<div id="manageHistory" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><b>View History</b></h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-12 ">
+            <div class="col-sm-3 table-responsive" style=" border-width: 5px; border-right-style:solid; height:500px; overflow-y: Auto;" >
+              <table class="table table-bordered table-hover">
+                <tr><th>Jobs</th></tr>
+                <tr ng-repeat="(key,data) in jobData"><td><a href="#" ng-click="getJson('viewHistory','history',key,'history')">//key//</a> &nbsp;&nbsp;</td></tr>
+
+              </table>
+            </div>
+        <div class="panel-body col-sm-9">
+          <form action="/submitForm/updateEmail/emailName" method="POST" id="updateEmail" onsubmit="event.preventDefault();submitForm(this);">
+
+
+
+    <div class="form-group col-sm-12">
+      <textarea placeholder="Select Job"  ng-value="frData['viewHistory']" class="form-control" style="height:20em;" readonly required></textarea>
+    </div>
+
+
+
+  </form></div></div></div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+
+<div id="viewLog" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><b>View Log</b></h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+
+        <div class="panel-body col-sm-12">
+          <form action="/submitForm/updateEmail/emailName" method="POST" id="updateEmail" onsubmit="event.preventDefault();submitForm(this);">
+
+
+
+    <div class="form-group col-sm-12">
+      <textarea placeholder="Loading...."  ng-value="frData['viewLog']" class="form-control" style="height:40em;" readonly required></textarea>
+    </div>
+
+
+
+  </form></div></div></div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+
+<div id="manageStep" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><b>Add New Step</b></h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-12 ">
+            <div class="col-sm-3 table-responsive" style=" border-width: 5px; border-right-style:solid; height:500px; overflow-y: Auto;" >
+              <table class="table table-bordered table-hover" id="stepTable">
+                <tr><th>Current Steps</th></tr>
+                <tr ng-repeat="(key,data) in stepData"><td><a href="#" ng-click="getJson('newStep','Step',data,'step')"  ng-init="jobName=data.split('|')[0]">//data.split('|')[1]//</a> &nbsp;&nbsp;&nbsp;<i class='fas fa-trash-alt' style="color:red;cursor: pointer;" ng-click="deleteJson('Step',data,'getStepList($scope.jobName);','stepTable')"> </i>&nbsp;&nbsp;<i class='fas fa-plus-circle' style="color:green;cursor: pointer;" data-target="#assginParam" title="Assigne Parameter" tooltip="Assigne Parameter" data-toggle="modal" ng-click="getStepParamList(data,'steps')"> </i></td></tr>
+
+              </table>
+            </div>
+        <div class="panel-body col-sm-9">
+          <form action="/submitForm/newStep/stepName" method="POST" id="newStep" onsubmit="event.preventDefault();submitForm(this);">
+            <div class="form-group col-sm-4">
+              <label for="email">Job Name:</label>
+              <input type="text" placeholder="job Name"  readonly ng-value="stepJobName" name="jobName" class="form-control" id="email" required>
+            </div>
+            <div class="form-group col-sm-4">
+              <label for="email" >Step Name:</label>
+              <input type="text" class="form-control" required name="stepName" ng-value="frData['updateStep']['stepName']">
+
+            </div>
+            <div class="form-group col-sm-4">
+              <label for="email" >Step Number:</label>
+              <input type="text" class="form-control" readonly required name="stepNo" ng-value="stepNo">
+
+            </div>
+            <div class="form-group col-sm-4 hide">
+              <label for="email" >Interval:</label>
+              <input type="text" class="form-control"  name="interval" ng-value="">
+
+            </div>
+            <div class="form-group col-sm-4 hide">
+              <label for="email" >isActive:</label>
+              <input type="text" class="form-control"  name="isActive" ng-value="1">
+
+            </div>
+            <div class="form-group col-sm-4 hide">
+              <label for="email" >Parameter:</label>
+              <input type="text" class="form-control"  name="parameter" ng-value="">
+
+            </div>
+
+   <div class="form-group col-sm-6">
+     <label for="email">Step Type:</label>
+     <select class="form-control" required name="stepType" ng-model="sel_option" ng-init="sel_option='1'" ng-change="selectChange()" >
+         <option  value="1">Sql Statement</option>
+          <option  value="2">Url Call</option>
+          <option  value="3">Email Call</option>
+           <option  value="4">Sql Procedure</option>
+            <option  value="5">File Access</option>
+     </select></div>
+   <div class="form-group col-sm-6" ng-init="getRemoteList()">
+     <label for="pwd">Select Remote:</label>
+     <select class="form-control"  name="remoteName" ng-disabled="d"  ng-value="frData['updateStep']['remoteName']">
+         <option ng-repeat="(key,data) in remoteData" value="//key//">//key//</option>
+     </select>
+      </div>
+   <div class="form-group col-sm-6 ">
+     <label for="pwd">SQL Statement:</label>
+     <textarea name="statement" placeholder="SQL Statement" ng-disabled="a" ng-value="frData['updateParam']['paramSubType']" value="-1" class="form-control" id="pwd" ></textarea>
+   </div>
+   <div class="form-group col-sm-6">
+     <label for="pwd">Url:</label>
+     <textarea name="url" placeholder="Url" ng-disabled="b"  class="form-control" id="pwd" ></textarea>
+   </div>
+   <div class="form-group col-sm-4">
+     <label for="pwd">Select SMTP:</label>
+     <select class="form-control"  ng-disabled="c" name="emailProfilerName" >
+         <option ng-repeat="(key,data) in emailData" value="//key//">//key//</option>
+     </select>
+      </div>
+      <div class="form-group col-sm-8">
+        <label for="pwd">Receiver Email:</label>
+        <textarea name="receiver_emails" ng-disabled="c" placeholder="Emails splited by (;)"  class="form-control" id="pwd" ></textarea>
+      </div>
+
+
+  <div class="col-sm-12 ">
+    <hr/>
+   <button type="submit" class="btn btn-primary pull-right btn-sm">Submit</button>
+  </div>
+  </form></div></div></div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+
+<div id="assginParam" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><b>Assigne Parameter</b></h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+
+        <div class="panel-body col-sm-12">
+          <form action="/submitForm/assigneParam/stepName" method="POST" id="assigneParam" onsubmit="event.preventDefault();submitForm(this);">
+
+
+
+            <div class="form-group col-sm-4">
+              <label for="email">Job Name|Step Name:</label>
+              <input type="text" placeholder="job Name"  readonly ng-value="frData['steps']['stepName']" name="stepName" class="form-control" id="email" required>
+            </div>
+            <div class="form-group col-sm-4" ng-init="getRemoteList()">
+              <label for="pwd">Select Parameter:</label>
+              <select class="form-control"  name="paramName"   >
+                  <option ng-repeat="(key,data) in frData['steps']['paramDetail']" value="//data//">//data//</option>
+              </select>
+               </div>
+               <div class="form-group col-sm-4" ng-init="getRemoteList()">
+                 <label for="pwd">Parameter Options:</label>
+                 <select class="form-control"  name="paramOption"  >
+                     <option ng-repeat="(key,data) in frData['steps']['paramOption']" value="//data//">//key//</option>
+                 </select>
+                  </div>
+
+                  <div class="col-sm-12 ">
+                    <hr/>
+                   <button type="submit" class="btn btn-primary pull-right btn-sm">Assigne</button>
+                  </div>
+
+  </form></div></div></div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+</body>
+<!--MODAL START-->
+
+<!-- Modal -->
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</html>

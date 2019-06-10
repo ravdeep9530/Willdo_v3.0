@@ -1,0 +1,27 @@
+"2019-05-07 01:32:38.118106=>Job Created!!"2019-05-23 18:14:29.090257=>Job has been updated!!
+2019-05-23 20:00:24.934791=>Error_Execute Step Hukamnama|Download under JOB Hukamnama With connection Willdo
+2019-05-23 20:00:26.748894=>Error_Execute Step Hukamnama|HukamNama_email under JOB Hukamnama With connection Willdo
+2019-05-23 23:33:45.682441=>Job has been updated!!
+2019-05-24 00:18:22.513553=>Job has been updated!!
+2019-05-24 00:18:35.045418=>Success_Execute Step Hukamnama|Download under JOB Hukamnama With connection Willdo
+2019-05-24 00:18:41.611698=>Success_Execute Step Hukamnama|HukamNama_email under JOB Hukamnama With connection Willdo
+2019-05-24 00:19:12.569036=>Job has been updated!!
+2019-06-05 12:19:59.409898=>Job has been updated!!
+2019-06-05 12:21:03.834746=>Job has been updated!!
+2019-06-05 21:34:13.557402=>Job has been updated!!
+2019-06-11 01:49:30.830457=>Job has been updated!!
+2019-06-11 01:49:47.022632=>Success_Execute Step Hukamnama|Download under JOB Hukamnama With connection Willdo
+2019-06-11 01:49:53.479566=>Success_Execute Step Hukamnama|HukamNama_email under JOB Hukamnama With connection Willdo
+2019-06-11 01:54:18.943764=>Job has been updated!!
+2019-06-11 01:54:40.537265=>Success_Execute Step Hukamnama|Download under JOB Hukamnama With connection Willdo
+2019-06-11 01:54:46.246507=>Success_Execute Step Hukamnama|HukamNama_email under JOB Hukamnama With connection Willdo
+2019-06-11 02:05:47.917380=>Job has been updated!!
+2019-06-11 02:08:38.421473=>Job has been updated!!
+2019-06-11 02:09:30.933353=>Job has been updated!!
+2019-06-11 02:11:11.308739=>Job has been updated!!
+2019-06-11 02:13:48.302125=>Job has been updated!!
+2019-06-11 02:13:55.118124=>Success_Execute Step Hukamnama|Download under JOB Hukamnama With connection Willdo
+2019-06-11 02:14:01.212725=>Success_Execute Step Hukamnama|HukamNama_email under JOB Hukamnama With connection Willdo
+2019-06-11 02:14:18.914059=>Job has been updated!!
+2019-06-11 02:14:34.786080=>Success_Execute Step Hukamnama|Download under JOB Hukamnama With connection Willdo
+2019-06-11 02:14:39.888802=>Success_Execute Step Hukamnama|HukamNama_email under JOB Hukamnama With connection Willdo

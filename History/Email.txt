@@ -1,0 +1,19 @@
+"2019-05-23 14:39:05.624586=>Job has been updated!!"2019-05-23 14:40:31.025125=>Error_Execute Step Email|emailing under JOB Email With connection mssql
+2019-05-23 14:42:31.102132=>Error_Execute Step Email|emailing under JOB Email With connection mssql
+2019-05-23 14:43:31.148136=>Error_Execute Step Email|emailing under JOB Email With connection mssql
+2019-05-23 14:44:36.776698=>Job has been updated!!
+2019-05-23 14:44:54.916512=>Job has been updated!!
+2019-05-23 14:44:57.544774=>Job has been updated!!
+2019-05-23 18:16:06.036802=>Job has been updated!!
+2019-05-23 18:17:28.943544=>Job has been updated!!
+2019-05-23 18:19:20.022897=>Job has been updated!!
+2019-05-23 23:33:32.325200=>Job has been updated!!
+2019-05-24 00:10:33.257825=>Job has been updated!!
+2019-05-24 00:10:36.914508=>Job has been updated!!
+2019-05-24 00:11:12.504857=>Success_Execute Step Email|emailing under JOB Email With connection mssql
+2019-05-24 00:11:26.494808=>Success_Execute Step Email|emailing under JOB Email With connection mssql
+2019-05-24 00:12:47.634888=>Job has been updated!!
+2019-05-24 00:13:29.567276=>Error_Execute Step Email|emailing under JOB Email With connection mssql
+2019-05-24 00:14:29.648014=>Job has been updated!!
+2019-05-24 00:15:43.182625=>Success_Execute Step Email|emailing under JOB Email With connection mssql
+2019-05-29 10:06:22.483759=>Job has been updated!!
