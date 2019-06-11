@@ -40,6 +40,13 @@ def getJobQueue():
         return jsonify(Json_evaluation.readJSON(path=__path__,filename=__jobQueue__))
     except Exception as e:
             return str(e), 500
+@app.route('/getActiveJobs')
+def getActiveJobs():
+    #return ""
+    try:
+        return jsonify(Job.getActiveJobs(path=__path__))
+    except Exception as e:
+            return str(e), 500
 @app.route('/getConList')
 def getConList():
     try:

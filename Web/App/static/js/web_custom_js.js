@@ -112,6 +112,19 @@ app.controller('WillDOCtrl', function ($scope, $http) {
         });
     }
     $scope.getJobQueue()
+    $scope.getActiveJobs = function () {
+
+        $http.get("getActiveJobs").then(function (response) {
+            $scope.activeJobData = response.data;
+            //alert(JSON.stringify($scope.ghData))
+
+        }, function (response) {
+            //Second function handles error
+            //alert('Something went wrong');
+            $scope.content = "Something went wrong";
+        });
+    }
+    $scope.getActiveJobs()
     $scope.getConList = function () {
 
         $http.get("getConList").then(function (response) {

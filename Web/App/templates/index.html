@@ -114,9 +114,9 @@
 <div class="jumbotron">
   <div class="container-fluid">
     <div class="Row">
-      <div class="col-sm-5">
+      <div class="col-sm-3">
     <div class=" panel   panel-default">
-      <div class="panel-heading">Current Job Queue</div>
+      <div class="panel-heading"><b>Current Job Queue</b></div>
       <div class="table-responsive panel-body">
       <table class="table table-bordered table-hover pull-left" style="background-color:white; box-shadow: 1px 1px 1px black;">
           <thead>
@@ -124,8 +124,7 @@
                 <th>Job Name</th>
                 <th>scheuled Time</th>
                 <th>Remaining Minutes</th>
-                <th>Next Run Date</th>
-                <th>Next Run Time</th>
+                
             </tr>
           </thead>
           <tbody>
@@ -133,12 +132,41 @@
               <td>//key//</td>
               <td>//data['scheduledTime']//</td>
               <td>//(data['remainingSec']/60)//</td>
-              <td>//data['nextRunDate']//</td>
-              <td>//data['nextRunTime']//</td>
+             
             </tr>
           </tbody>
-      </table></div>
-    </div></div></div>
+      </table>
+      </div>
+    </div></div>
+      <div class="col-sm-5">
+    <div class=" panel   panel-default">
+      <div class="panel-heading"><b>Active Job's</b></div>
+      <div class="table-responsive panel-body">
+      <table class="table table-bordered table-hover pull-left" style="background-color:white; box-shadow: 1px 1px 1px black;">
+          <thead>
+            <tr style="background-color:#262656; color:white;">
+                <th>Job Name</th>
+                <th>scheuled Time</th>
+                
+                <th>Next Run Date</th>
+                <th>Next Run Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="(key,data) in activeJobData">
+              <td>//key//</td>
+              <td>//data['scheuledTime']//</td>
+              
+              <td ng-if="data['nextRunDate']!=null">//data['nextRunDate']//</td>
+              <td ng-if="data['nextRunDate']==null">Not yet calculated</td>
+              <td ng-if="data['nextRunTime']!=null">//data['nextRunTime']//</td>
+              <td ng-if="data['nextRunTime']==null">Not yet calculated</td>
+            </tr>
+          </tbody>
+      </table>
+      </div>
+    </div>
+    </div></div>
   </div>
 </div>
 

@@ -31,10 +31,10 @@ class Job:
             pass
         except Exception as e:
             log("Error_Jobs_addStep@"+str(e))
-    def evaluateJob():
+    def evaluateJob(path=__guidePath__):
         try:
             #step_data=Json_evaluation.readJSON(filename=__stepsFile__)
-            return Json_evaluation.readJSON(filename=__jobFile__)
+            return Json_evaluation.readJSON(filename=__jobFile__,path=path)
             #print(job_data["conName"])
             #con_data=Json_evaluation.readJSON(filename=__connectionFile__)
             #sjc_data={**step_data,**job_data,**con_data}
@@ -70,7 +70,7 @@ class Job:
             data=Json_evaluation.readJSON(filename=__jobQueue__)
             #print(data)
             jobCache=""
-            curDate=Generic.strToDate(Generic.getDate());
+            curDate=Generic.strToDate(Generic.getDate())
             lesserTime=-1
             for key in data.keys():
                 if lesserTime==-1 and  Generic.strToTime(data[key]["scheduledTime"])>=Generic.strToTime(Generic.getTime()):
@@ -171,6 +171,21 @@ class Job:
             log("Error_Jobs_updateNextRun@"+str(e))
     
 
+    def getActiveJobs(path=__guidePath__):
+        try:
+            data=Job.evaluateJob(path)
+            #print(data)
+            curDate=Generic.strToDate(Generic.getDate())
+            activeJobs={}
+            for key in data.keys():
+                if Generic.strToDate(data[key]["startDate"])<=curDate and Generic.strToDate(data[key]["endDate"])>=curDate and (data[key]["isActive"]==1 or data[key]["isActive"]=="on"):
+                    activeJobs[key]=data[key]
+            return activeJobs
+
+
+        except Exception as e:
+            log("Error_Jobs_isJobEligibleToRun@"+str(e)) 
+            return 0
 
     #def prepareJobSteps(job_name):
         #steps[]
