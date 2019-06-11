@@ -33,3 +33,5 @@
 2019-06-04 16:50:27.672505=>Job has been updated!!
 2019-06-04 18:09:23.876505=>Job has been updated!!
 2019-06-05 21:34:54.098258=>Job has been updated!!
+2019-06-11 16:00:27.462000=>Success_Execute Step Love Test|p_call under JOB Love Test With connection mssql
+2019-06-11 16:00:33.542000=>Error_Execute Step Love Test|ChanEmail under JOB Love Test With connection mssql

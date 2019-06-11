@@ -138,8 +138,8 @@ async def check_pending_notifications():
         Job.prepareJobQueue()
         #Job.getNearestJob()
         #Job.executeJob(Job.getNearestJob())
-        #nearestJob=Job.getNearestJob();
-        #nearestJobName=Json_evaluation.getJsonByKey(filename=__jobQueue__,key=nearestJob)
+        #nearestJob=Job.getNearestJob() #Disabled in v3.0
+        #nearestJobName=Json_evaluation.getJsonByKey(filename=__jobQueue__,key=nearestJob) #Disabled in v3.0
         readyQueue=Json_evaluation.readJSON(filename=__jobQueue__)
         for nearestJobName in readyQueue.keys():
             if readyQueue[nearestJobName]['remainingSec']==0:
@@ -157,7 +157,7 @@ async def check_pending_notifications():
         #send_report(filename)
         pass
     except Exception as e:
-        print("No Email is Pending." + str(e))
+        print("#Warning: No Job  is Pending." + str(e))
         #if str(e).__contains__("index out")!=1:
             #getResult("INSERT INTO `JOB_ERROR`(`job_id`, `error_description`) VALUES (1,'SMTP Exception:" + str(e) + "')")
 
@@ -165,13 +165,6 @@ async def check_pending_notifications():
 s = sched.scheduler(time.time, time.sleep)
 
 
-def getFilename(url):
-    today = datetime.date.today()
-    # print today
-    os.system("wkhtmltopdf " + url + " HMS_" + str(today) + ".pdf")
-    # do your stuff
-    fname = "HMS_" + str(today) + ".pdf"
-    return fname
 
 
 def do_something(sc):

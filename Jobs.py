@@ -59,13 +59,13 @@ class Job:
                 else:
                     timeKeyword="nextRunTime"
                 if Generic.strToDate(data[key]["startDate"])<=curDate and Generic.strToDate(data[key]["endDate"])>=curDate and (data[key]["isActive"]==1 or data[key]["isActive"]=="on")  and (lastRunDate=="-1" or Job.isJobEligibleToRun(int(data[key]["interval"]),curDate,curTime,data[key][timeKeyword])==1)  and Generic.strToTime(data[key][timeKeyword])>=curTime:
-                    todayList[key]={"scheduledTime":data[key][timeKeyword],"remainingSec":Generic.timeDiff(Generic.getTime(),data[key][timeKeyword])}
+                    todayList[key]={"scheduledTime":data[key][timeKeyword],"remainingSec":Generic.timeDiff(Generic.getTime(),data[key][timeKeyword]),"nextRunDate": "-" if timeKeyword=="scheuledTime" else data[key]['nextRunDate'],"nextRunTime": "-" if timeKeyword=="scheuledTime" else data[key]['nextRunTime']}
                     #print(todayList)
             Json_evaluation.writeJSON(data=todayList,filename=__jobQueue__)
             log("Job Queue Prepared....")
         except Exception as e:
             log("Error_Jobs_prepareJobQueue@"+str(e))
-    def getNearestJob():
+    def getNearestJob():#Disabled in v3.0
         try:
             data=Json_evaluation.readJSON(filename=__jobQueue__)
             #print(data)

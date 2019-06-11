@@ -114,7 +114,7 @@
 <div class="jumbotron">
   <div class="container-fluid">
     <div class="Row">
-      <div class="col-sm-3">
+      <div class="col-sm-5">
     <div class=" panel   panel-default">
       <div class="panel-heading">Current Job Queue</div>
       <div class="table-responsive panel-body">
@@ -124,6 +124,8 @@
                 <th>Job Name</th>
                 <th>scheuled Time</th>
                 <th>Remaining Minutes</th>
+                <th>Next Run Date</th>
+                <th>Next Run Time</th>
             </tr>
           </thead>
           <tbody>
@@ -131,6 +133,8 @@
               <td>//key//</td>
               <td>//data['scheduledTime']//</td>
               <td>//(data['remainingSec']/60)//</td>
+              <td>//data['nextRunDate']//</td>
+              <td>//data['nextRunTime']//</td>
             </tr>
           </tbody>
       </table></div>
