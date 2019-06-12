@@ -2,7 +2,7 @@ import sys
 sys.path.insert(0,'../../')
 import json
 from flask import Flask,render_template,jsonify,request
-from Json_evaluation import Json_evaluation
+from Json_evaluation import Json_evaluation,clearLog
 from Jobs import Job
 from include.Variable import __jobQueue__,__connectionFile__,__intervalFile__,__jobFile__,__driverFile__,__parameterFile__,__emailFile__,__syncFile__,__stepsFile__
 from InsertConnection import insertConnection
@@ -87,6 +87,13 @@ def getEmailList():
 def getRemoteList():
     try:
         return jsonify(Json_evaluation.readJSON(path=__path__,filename=__syncFile__))
+    except Exception as e:
+            return str(e), 500
+@app.route('/clearLog')
+def clearLog():
+    try:
+        clearLog(path=__logPath__)
+        return "Log has been crealed!!!"
     except Exception as e:
             return str(e), 500
 @app.route('/getStepList/<jobName>')
@@ -200,4 +207,4 @@ def hello_name(user):
    return render_template('index.html', name = user)
 
 if __name__ == '__main__':
-   app.run(port=8080)
+   app.run(host='0.0.0.0',port=8000)

@@ -60,11 +60,14 @@ class Parameter:
         try:
             #data=Json_evaluation.getJsonByKey(key=stepName,filename=__stepsFile__,path=path)
             optionData={}
+            
             paramOptionData=Json_evaluation.readJSON(filename=__paramOptionFile__,path=path)
             stepData=Json_evaluation.getJsonByKey(key=stepName,filename=__stepsFile__,path=path)
+            
             stepType=stepData['stepType']
             for paramKey in paramOptionData.keys():
-                if str(paramOptionData[paramKey]['stepType']) in stepType:
+                if str(stepType) in str(paramOptionData[paramKey]['stepType']):
+                    
                     optionData[paramOptionData[paramKey]['name']]=paramKey
 
 

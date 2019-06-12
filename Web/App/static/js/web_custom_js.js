@@ -209,6 +209,19 @@ app.controller('WillDOCtrl', function ($scope, $http) {
             $scope.content = "Something went wrong";
         });
     }
+    $scope.clearLog = function () {
+        showLoad()
+        $http.get("clearLog").then(function (response) {
+           // $scope.remoteData = response.data;
+            alert(JSON.stringify(response.data))
+            hideLoad()
+
+        }, function (response) {
+            //Second function handles error
+            //alert('Something went wrong');
+            $scope.content = "Something went wrong";
+        });
+    }
     $scope.getStepList = function (jobName) {
       if(typeof jobName==='undefined')
     {  console.log('Job is Ok.')

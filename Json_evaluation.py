@@ -70,3 +70,12 @@ def log(data,path=__logPath__,filename=__logFile__):
             print(data, file=txtfile)
     except Exception as e:
         log("Error_C_Json_evaluation_log"+str(e))
+
+def clearLog(data="",path=__logPath__,filename=__logFile__):
+    try:
+        print(data,path)
+        #data=str(datetime.datetime.now())+"=>"+data
+        with open(path+'/'+filename, 'w') as txtfile:
+            print(data, file=txtfile)
+    except Exception as e:
+        log("Error_C_clearLog"+str(e))
