@@ -76,3 +76,30 @@ class Parameter:
         except Exception as e:
             log("Error_Parameter_getParamOptions@"+str(e))
             return "-1"
+    
+    def getInbuitParam(stepName,path=__guidePath__):
+        try:
+
+            stepData=Json_evaluation.getJsonByKey(key=stepName,filename=__stepsFile__,path=path)
+            
+            if str(stepData["stepType"]) in "1,4":
+                print(stepData["stepType"])
+                stepStr=stepData["statement"]
+                index=stepStr.find("@")
+                inbulitParaData=[]
+                while index!=-1:
+                    
+                    tempStr=stepStr[index+1:]
+                    
+                    end=str(tempStr).find("@")
+                    inbulitParaData.insert(0,stepStr[index+1:index+end+1])
+                    
+                    stepStr=stepStr[index+end+2:]
+                    index=stepStr.find("@")
+                    
+
+
+
+            return inbulitParaData
+        except Exception as e:
+            log("Error_getInbuitParam@"+str(e))

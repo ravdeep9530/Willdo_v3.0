@@ -113,6 +113,12 @@ def getStepParamList(jobName,stepName):
         return jsonify(data)
     except Exception as e:
             return str(e), 500
+@app.route('/getInbuitParamList/<stepName>')
+def getInbuitParamList(stepName):
+    try:
+        return jsonify(Parameter.getInbuitParam(stepName,path=__path__))
+    except Exception as e:
+            return str(e), 500
 @app.route('/getJson/<file>/<key>')
 def getJson(file,key):
     try:

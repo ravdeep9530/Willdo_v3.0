@@ -958,34 +958,75 @@
       <div class="modal-body">
         <div class="row">
 
-        <div class="panel-body col-sm-12">
-          <form action="/submitForm/assigneParam/stepName" method="POST" id="assigneParam" onsubmit="event.preventDefault();submitForm(this);">
+          <div class="panel-body col-sm-12">
+            <form action="/submitForm/assigneParam/stepName" method="POST" id="assigneParam" onsubmit="event.preventDefault();submitForm(this);">
 
 
 
-            <div class="form-group col-sm-4">
-              <label for="email">Job Name|Step Name:</label>
-              <input type="text" placeholder="job Name"  readonly ng-value="frData['steps']['stepName']" name="stepName" class="form-control" id="email" required>
-            </div>
-            <div class="form-group col-sm-4" ng-init="getRemoteList()">
-              <label for="pwd">Select Parameter:</label>
-              <select class="form-control"  name="paramName"   >
-                  <option ng-repeat="(key,data) in frData['steps']['paramDetail']" value="//data//">//data//</option>
-              </select>
-               </div>
-               <div class="form-group col-sm-4" ng-init="getRemoteList()">
-                 <label for="pwd">Parameter Options:</label>
-                 <select class="form-control"  name="paramOption"  >
-                     <option ng-repeat="(key,data) in frData['steps']['paramOption']" value="//data//">//key//</option>
-                 </select>
-                  </div>
+              <div class="form-group col-sm-4">
+                <label for="email">Job Name|Step Name:</label>
+                <input type="text" placeholder="job Name"  readonly ng-value="frData['steps']['stepName']" name="stepName" class="form-control" id="email" required>
+              </div>
+              <div class="form-group col-sm-4" ng-init="getRemoteList()">
+                <label for="pwd">Select Parameter:</label>
+                <select class="form-control"  name="paramName"   >
+                    <option ng-repeat="(key,data) in frData['steps']['paramDetail']" value="//data//">//data//</option>
+                </select>
+                </div>
+                <div class="form-group col-sm-4" ng-init="getRemoteList()">
+                  <label for="pwd">Parameter Options:</label>
+                  <select class="form-control"  name="paramOption"  >
+                      <option ng-repeat="(key,data) in frData['steps']['paramOption']" value="//data//">//key//</option>
+                  </select>
+                    </div>
 
-                  <div class="col-sm-12 ">
-                    <hr/>
-                   <button type="submit" class="btn btn-primary pull-right btn-sm">Assigne</button>
-                  </div>
+                    <div class="col-sm-12 ">
+                      <hr/>
+                    <button type="submit" class="btn btn-primary pull-right btn-sm">Assigne</button>
+                    </div>
 
-  </form></div></div></div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+        <div class="col-sm-12">
+        <h3>Query Inbulit Parameter</h3>
+        <hr>
+        </div>
+
+          <div class="panel-body col-sm-12">
+            <form action="/submitForm/assigneParam/stepName" method="POST" id="assigneParam" onsubmit="event.preventDefault();submitForm(this);">
+
+
+
+              <div class="form-group col-sm-4">
+                <label for="email">Job Name|Step Name:</label>
+                <input type="text" placeholder="job Name"  readonly ng-value="frData['steps']['stepName']" name="stepName" class="form-control" id="email" required>
+              </div>
+              <div class="form-group col-sm-4" ng-init="getRemoteList()">
+                <label for="pwd">Select Parameter:</label>
+                <select class="form-control"  name="paramName"   >
+                    <option ng-repeat="(key,data) in frData['steps']['paramDetail']" value="//data//">//data//</option>
+                </select>
+                </div>
+                <div class="form-group col-sm-4" ng-init="getRemoteList()">
+                  <label for="pwd">Parameter Options:</label>
+                  <select class="form-control"  name="paramOption"  >
+                      <option ng-repeat="(key,data) in frData['steps']['paramOption']" value="//data//">//key//</option>
+                  </select>
+                    </div>
+
+                    <div class="col-sm-12 ">
+                      <hr/>
+                    <button type="submit" class="btn btn-primary pull-right btn-sm">Assigne</button>
+                    </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
       </div>
 
     </div>

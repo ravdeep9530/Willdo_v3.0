@@ -244,12 +244,30 @@ app.controller('WillDOCtrl', function ($scope, $http) {
         });
     }
     $scope.getStepParamList = function (stepName,form_id) {
-
+        $scope.getInbuitParamList(stepName)
         $http.get("getStepParamList/"+$scope.stepJobName+"/"+stepName).then(function (response) {
           //alert(JSON.stringify(response.data))
           frData['steps']=response.data;
           frData['steps']['stepName']=stepName
              $scope.frData = frData;
+
+
+
+
+        }, function (response) {
+
+            //Second function handles error
+            //alert('Something went wrong');
+            $scope.content = "Something went wrong";
+        });
+    }
+    $scope.getInbuitParamList = function (stepName) {
+
+        $http.get("getInbuitParamList/"+stepName).then(function (response) {
+          alert(JSON.stringify(response.data))
+          //frData['steps']=response.data;
+          //frData['steps']['stepName']=stepName
+            // $scope.frData = frData;
 
 
 
