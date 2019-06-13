@@ -28,3 +28,7 @@
 2019-06-11 23:55:32.626295=>Success_Execute Step Epic|emailTest under JOB Epic With connection mssql
 2019-06-12 00:05:35.788024=>Success_Execute Step Epic|emailTest under JOB Epic With connection mssql
 2019-06-12 00:15:33.873280=>Success_Execute Step Epic|emailTest under JOB Epic With connection mssql
+2019-06-13 08:41:56.060557=>Job has been updated!!
+2019-06-13 08:42:37.038459=>Job has been updated!!
+2019-06-13 08:42:52.556581=>Success_Execute Step Epic|emailTest under JOB Epic With connection mssql
+2019-06-13 08:52:55.371412=>Success_Execute Step Epic|emailTest under JOB Epic With connection mssql

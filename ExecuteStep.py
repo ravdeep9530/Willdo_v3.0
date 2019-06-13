@@ -90,10 +90,10 @@ class ExecuteStep:
                             paramVal=paramData[param]["paramValue"]
                             emailAdditionMsgPart["emailMsg"]=paramVal
 
-                        param=Parameter.getParamValue(params,9)
-                        if param!="-1":
-                            paramVal=paramData[param]["paramValue"]
-                            data["receiver_emails"]=paramVal
+                        #param=Parameter.getParamValue(params,9)
+                        #if param!="-1":
+                            #paramVal=paramData[param]["paramValue"]
+                            #data["receiver_emails"]=paramVal
 
                     data={**data,**emailAdditionMsgPart}
                     for attach in Generic.removeLastSperator(attachedFilePath).split("|"):
