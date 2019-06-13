@@ -4,7 +4,7 @@ import json
 from flask import Flask,render_template,jsonify,request
 from Json_evaluation import Json_evaluation,clearLog
 from Jobs import Job
-from include.Variable import __jobQueue__,__connectionFile__,__intervalFile__,__jobFile__,__driverFile__,__parameterFile__,__emailFile__,__syncFile__,__stepsFile__
+from include.Variable import __jobQueue__,__connectionFile__,__schedulerTimeStampFile__,__intervalFile__,__jobFile__,__driverFile__,__parameterFile__,__emailFile__,__syncFile__,__stepsFile__
 from InsertConnection import insertConnection
 from Parameter import Parameter
 from Email import Email
@@ -89,6 +89,12 @@ def getRemoteList():
         return jsonify(Json_evaluation.readJSON(path=__path__,filename=__syncFile__))
     except Exception as e:
             return str(e), 500
+@app.route('/getSchedulerDetail')
+def getSchedulerDetail():
+    try:
+        return jsonify(Json_evaluation.readJSON(path=__path__,filename=__schedulerTimeStampFile__))
+    except Exception as e:
+            return str(e), 500
 @app.route('/clearLog')
 def clearLog():
     try:
@@ -116,7 +122,7 @@ def getStepParamList(jobName,stepName):
 @app.route('/getInbuitParamList/<stepName>')
 def getInbuitParamList(stepName):
     try:
-        return jsonify(Parameter.getInbuitParam(stepName,path=__path__))
+        return jsonify(Parameter.getInbuiltParam(stepName,path=__path__))
     except Exception as e:
             return str(e), 500
 @app.route('/getJson/<file>/<key>')
@@ -171,7 +177,14 @@ def submitForm(formName,masterName):
                 jobName=data[masterKey]["jobName"]
                 data={str(data[masterKey]["jobName"]+"|"+data[masterKey]['stepName']):data[masterKey]}
                 Job.addStep(str(jobName),data,path=__path__,logPath=__logPath__)
-                return "Step updated Successfully under "+jobName+" !!"
+                return "Step Created Successfully under "+jobName+" !!"
+            elif formName=='manageStep':
+
+                jobName=data[masterKey]["jobName"]
+                data={str(data[masterKey]["jobName"]+"|"+data[masterKey]['stepName']):data[masterKey]}
+                #print(data)
+                Job.addStep(str(jobName),data,path=__path__,logPath=__logPath__)
+                return "Step Updated Successfully under "+jobName+" !!"
             elif formName=='assigneParam':
                 stepData=Json_evaluation.getJsonByKey(key=masterKey,filename=__stepsFile__,path=__path__)
                 print(stepData)

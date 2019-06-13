@@ -26,6 +26,7 @@ class Job:
             log("Error_Jobs_setJob@"+str(e),path=logPath)
     def addStep(jobName,step_dict,path=__guidePath__,logPath=__logPath__):
         try:
+            print(step_dict)
             Json_evaluation.updateJson(step_dict,__stepsFile__,path=path)
             log("Adding "+str(step_dict.keys())+" step under job "+jobName,path=logPath)
             pass

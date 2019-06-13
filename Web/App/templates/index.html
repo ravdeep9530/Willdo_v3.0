@@ -166,6 +166,27 @@
       </table>
       </div>
     </div>
+    </div><div class="col-sm-4">
+    <div class=" panel   panel-default">
+      <div class="panel-heading"><b>Scheduler Detail</b></div>
+      <div class="table-responsive panel-body">
+      <table class="table table-bordered table-hover pull-left" style="background-color:white; box-shadow: 1px 1px 1px black;">
+          
+          <tbody>
+            <tr >
+              <td style="background-color:#145656; color:white;">Scheduler Status</td>
+              <td>//schedulerData['schedulerStatus']//</td>
+              
+            </tr>
+            <tr >
+              <td style="background-color:#145656; color:white;">Last Scheduler Start</td>
+              <td>//schedulerData['schedulerTimeStamp']//</td>
+              
+            </tr>
+          </tbody>
+      </table>
+      </div>
+    </div>
     </div></div>
   </div>
 </div>
@@ -861,7 +882,7 @@
             <div class="col-sm-3 table-responsive" style=" border-width: 5px; border-right-style:solid; height:500px; overflow-y: Auto;" >
               <table class="table table-bordered table-hover" id="stepTable">
                 <tr><th>Current Steps</th></tr>
-                <tr ng-repeat="(key,data) in stepData"><td><a href="#" ng-click="getJson('newStep','Step',data,'step')"  ng-init="jobName=data.split('|')[0]">//data.split('|')[1]//</a> &nbsp;&nbsp;&nbsp;<i class='fas fa-trash-alt' style="color:red;cursor: pointer;" ng-click="deleteJson('Step',data,'getStepList($scope.jobName);','stepTable')"> </i>&nbsp;&nbsp;<i class='fas fa-plus-circle' style="color:green;cursor: pointer;" data-target="#assginParam" title="Assigne Parameter" tooltip="Assigne Parameter" data-toggle="modal" ng-click="getStepParamList(data,'steps')"> </i></td></tr>
+                <tr ng-repeat="(key,data) in stepData"><td><a href="#" ng-click="getJson('updateStep','Steps',data,'stepName')" data-target="#updateStep" data-toggle="modal" ng-init="jobName=data.split('|')[0]">//data.split('|')[1]//</a> &nbsp;&nbsp;&nbsp;<i class='fas fa-trash-alt' style="color:red;cursor: pointer;" ng-click="deleteJson('Step',data,'getStepList($scope.jobName);','stepTable')"> </i>&nbsp;&nbsp;<i class='fas fa-plus-circle' style="color:green;cursor: pointer;" data-target="#assginParam" title="Assigne Parameter" tooltip="Assigne Parameter" data-toggle="modal" ng-click="getStepParamList(data,'steps')"> </i></td></tr>
 
               </table>
             </div>
@@ -873,7 +894,7 @@
             </div>
             <div class="form-group col-sm-4">
               <label for="email" >Step Name:</label>
-              <input type="text" class="form-control" required name="stepName" ng-value="frData['updateStep']['stepName']">
+              <input type="text" class="form-control" required name="stepName" >
 
             </div>
             <div class="form-group col-sm-4">
@@ -908,13 +929,13 @@
      </select></div>
    <div class="form-group col-sm-6" ng-init="getRemoteList()">
      <label for="pwd">Select Remote:</label>
-     <select class="form-control"  name="remoteName" ng-disabled="d"  ng-value="frData['updateStep']['remoteName']">
+     <select class="form-control"  name="remoteName" ng-disabled="d"  >
          <option ng-repeat="(key,data) in remoteData" value="//key//">//key//</option>
      </select>
       </div>
    <div class="form-group col-sm-6 ">
      <label for="pwd">SQL Statement:</label>
-     <textarea name="statement" placeholder="SQL Statement" ng-disabled="a" ng-value="frData['updateParam']['paramSubType']" value="-1" class="form-control" id="pwd" ></textarea>
+     <textarea name="statement" placeholder="SQL Statement" ng-disabled="a"  value="-1" class="form-control" id="pwd" ></textarea>
    </div>
    <div class="form-group col-sm-6">
      <label for="pwd">Url:</label>
@@ -928,7 +949,7 @@
       </div>
       <div class="form-group col-sm-8">
         <label for="pwd">Receiver Email:</label>
-        <textarea name="receiver_emails" ng-disabled="c" placeholder="Emails splited by (;)"  class="form-control" id="pwd" ></textarea>
+        <textarea name="receiver_emails" ng-disabled="c" placeholder="Emails splited by (,)"  class="form-control" id="pwd" ></textarea>
       </div>
 
 
@@ -989,7 +1010,7 @@
           </div>
         </div>
       </div>
-      <div class="modal-body">
+      <div class="modal-body hide">
         <div class="row">
         <div class="col-sm-12">
         <h3>Query Inbulit Parameter</h3>
@@ -997,31 +1018,33 @@
         </div>
 
           <div class="panel-body col-sm-12">
-            <form action="/submitForm/assigneParam/stepName" method="POST" id="assigneParam" onsubmit="event.preventDefault();submitForm(this);">
+          
+            <form action="/submitForm/assigneParam/stepName" ng-repeat="data in frData['inBuiltParam']" method="POST" id="assigneParam" onsubmit="event.preventDefault();submitForm(this);">
 
+              <div class="col-sm-12"><hr/></div>
 
-
-              <div class="form-group col-sm-4">
+              <div class="form-group col-sm-3">
                 <label for="email">Job Name|Step Name:</label>
                 <input type="text" placeholder="job Name"  readonly ng-value="frData['steps']['stepName']" name="stepName" class="form-control" id="email" required>
               </div>
-              <div class="form-group col-sm-4" ng-init="getRemoteList()">
+              <div class="form-group col-sm-3" >
                 <label for="pwd">Select Parameter:</label>
-                <select class="form-control"  name="paramName"   >
-                    <option ng-repeat="(key,data) in frData['steps']['paramDetail']" value="//data//">//data//</option>
-                </select>
+                <input type="text" placeholder="job Name"  readonly ng-value="data" name="stepName" class="form-control" id="email" required>
+              
+               
                 </div>
-                <div class="form-group col-sm-4" ng-init="getRemoteList()">
+                <div class="form-group col-sm-3" ng-init="getRemoteList()">
                   <label for="pwd">Parameter Options:</label>
                   <select class="form-control"  name="paramOption"  >
                       <option ng-repeat="(key,data) in frData['steps']['paramOption']" value="//data//">//key//</option>
                   </select>
                     </div>
 
-                    <div class="col-sm-12 ">
-                      <hr/>
+                    <div class="col-sm-3 ">
+                     
                     <button type="submit" class="btn btn-primary pull-right btn-sm">Assigne</button>
                     </div>
+                    
 
             </form>
           </div>
@@ -1034,6 +1057,98 @@
   </div>
 </div>
 
+
+<div id="updateStep" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><b>Manage Step</b></h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-12 ">
+            
+        <div class="panel-body col-sm-12">
+          <form action="/submitForm/manageStep/stepName" method="POST" id="updateStep" onsubmit="event.preventDefault();submitForm(this);">
+            <div class="form-group col-sm-4">
+              <label for="email">Job Name:</label>
+              <input type="text" placeholder="job Name" ng-value="frData['updateStep']['jobName']"  readonly  name="jobName" class="form-control" id="email" required>
+            </div>
+            <div class="form-group col-sm-4">
+              <label for="email" >Step Name:</label>
+              <input type="text" class="form-control" required name="stepName" readonly ng-value="frData['updateStep']['stepName'].split('|')[1]">
+
+            </div>
+            <div class="form-group col-sm-4">
+              <label for="email" >Step Number:</label>
+              <input type="text" class="form-control" ng-value="frData['updateStep']['stepNo']" readonly required name="stepNo" ng-value="stepNo">
+
+            </div>
+            <div class="form-group col-sm-4 hide">
+              <label for="email" >Interval:</label>
+              <input type="text" class="form-control" ng-value="frData['updateStep']['interval']"  name="interval" >
+
+            </div>
+            <div class="form-group col-sm-4 hide">
+              <label for="email" >isActive:</label>
+              <input type="text" class="form-control" ng-value="frData['updateStep']['isActive']"  name="isActive"  ng-value="1">
+
+            </div>
+            <div class="form-group col-sm-4 hide">
+              <label for="email" >Parameter:</label>
+              <input type="text" class="form-control" ng-value="frData['updateStep']['parameter']"  name="parameter" >
+
+            </div>
+
+   <div class="form-group col-sm-6">
+     <label for="email">Step Type:</label>
+     <select class="form-control" required name="stepType" ng-value="frData['updateStep']['stepType']" ng-model="sel_option" ng-init="sel_option='1'" ng-change="selectChange()" >
+         <option  value="1">Sql Statement</option>
+          <option  value="2">Url Call</option>
+          <option  value="3">Email Call</option>
+           <option  value="4">Sql Procedure</option>
+            <option  value="5">File Access</option>
+     </select></div>
+   <div class="form-group col-sm-6" ng-init="getRemoteList()">
+     <label for="pwd">Select Remote:</label>
+     <select class="form-control"  name="remoteName" ng-disabled="d"  ng-value="frData['updateStep']['remoteName']">
+         <option ng-repeat="(key,data) in remoteData" value="//key//">//key//</option>
+     </select>
+      </div>
+   <div class="form-group col-sm-6 ">
+     <label for="pwd">SQL Statement:</label>
+     <textarea name="statement" placeholder="SQL Statement" ng-disabled="a" ng-value="frData['updateStep']['statement']" class="form-control" id="pwd" ></textarea>
+   </div>
+   <div class="form-group col-sm-6">
+     <label for="pwd">Url:</label>
+     <textarea name="url" placeholder="Url" ng-value="frData['updateStep']['url']"   ng-disabled="b"  class="form-control" id="pwd" ></textarea>
+   </div>
+   <div class="form-group col-sm-4">
+     <label for="pwd">Select SMTP:</label>
+     <select class="form-control" ng-value="frData['updateStep']['emailProfilerName']" ng-disabled="c" name="emailProfilerName" >
+         <option ng-repeat="(key,data) in emailData" value="//key//">//key//</option>
+     </select>
+      </div>
+      <div class="form-group col-sm-8">
+        <label for="pwd">Receiver Email:</label>
+        <textarea name="receiver_emails" ng-value="frData['updateStep']['receiver_emails']"  ng-disabled="c" placeholder="Emails splited by (,)"  class="form-control" id="pwd" ></textarea>
+      </div>
+
+
+  <div class="col-sm-12 ">
+    <hr/>
+   <button type="submit" class="btn btn-primary pull-right btn-sm">Update</button>
+  </div>
+  </form></div></div></div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
 </body>
 <!--MODAL START-->
 

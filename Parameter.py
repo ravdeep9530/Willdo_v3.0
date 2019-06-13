@@ -77,7 +77,7 @@ class Parameter:
             log("Error_Parameter_getParamOptions@"+str(e))
             return "-1"
     
-    def getInbuitParam(stepName,path=__guidePath__):
+    def getInbuiltParam(stepName,path=__guidePath__):
         try:
 
             stepData=Json_evaluation.getJsonByKey(key=stepName,filename=__stepsFile__,path=path)

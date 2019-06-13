@@ -244,7 +244,7 @@ app.controller('WillDOCtrl', function ($scope, $http) {
         });
     }
     $scope.getStepParamList = function (stepName,form_id) {
-        $scope.getInbuitParamList(stepName)
+        //$scope.getInbuitParamList(stepName)
         $http.get("getStepParamList/"+$scope.stepJobName+"/"+stepName).then(function (response) {
           //alert(JSON.stringify(response.data))
           frData['steps']=response.data;
@@ -264,10 +264,10 @@ app.controller('WillDOCtrl', function ($scope, $http) {
     $scope.getInbuitParamList = function (stepName) {
 
         $http.get("getInbuitParamList/"+stepName).then(function (response) {
-          alert(JSON.stringify(response.data))
-          //frData['steps']=response.data;
+          //alert(JSON.stringify(response.data))
+          frData['inBuiltParam']=response.data;
           //frData['steps']['stepName']=stepName
-            // $scope.frData = frData;
+             $scope.frData = frData;
 
 
 
@@ -279,6 +279,25 @@ app.controller('WillDOCtrl', function ($scope, $http) {
             $scope.content = "Something went wrong";
         });
     }
+    $scope.getSchedulerDetail = function () {
+
+        $http.get("getSchedulerDetail").then(function (response) {
+          //alert(JSON.stringify(response.data))
+          schedulerData=response.data;
+          //frData['steps']['stepName']=stepName
+             $scope.schedulerData = schedulerData;
+
+
+
+
+        }, function (response) {
+
+            //Second function handles error
+            //alert('Something went wrong');
+            $scope.content = "Something went wrong";
+        });
+    }
+    $scope.getSchedulerDetail();
     $scope.getJson = function (form_id,fileName,key,masterKey) {
         //alert("getJson/"+fileName+"/"+key)
           showLoad();
@@ -292,6 +311,7 @@ app.controller('WillDOCtrl', function ($scope, $http) {
           frData[form_id] = response.data;
           frData[form_id][masterKey]=key
           $scope.frData = frData;
+          //alert(JSON.stringify($scope.frData))
           $('#'+form_id+' :button').prop('disabled', false);
         }
         hideLoad();
