@@ -15,6 +15,7 @@ from include.Variable import __guidePath__
 from Json_evaluation import Json_evaluation,log
 from InsertConnection import insertConnection
 from Jobs import Job
+from Sync import Sync
 from include.Variable import __stepsFile__,__jobCache__,__jobQueue__,__schedulerTimeStampFile__
 from ExecuteStep import ExecuteStep
 from Url import Url
@@ -168,8 +169,9 @@ s = sched.scheduler(time.time, time.sleep)
 def setSchedulerTimeStap():
     try:
         dateTime=Generic.getDateTime()
-        Json_evaluation.updateJson({"schedulerTimeStamp":str(dateTime)},filename=__schedulerTimeStampFile__)
+        Json_evaluation.updateJson({"schedulerTimeStamp":str(dateTime),"schedulerStatus":"ON"},filename=__schedulerTimeStampFile__)
         log("Scheduler Restarted at "+str(dateTime))
+        
     except Exception as e:
         log("Error_setSchedulerTimeStap"+str(e))
 

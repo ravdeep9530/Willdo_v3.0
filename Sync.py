@@ -1,5 +1,5 @@
 from Json_evaluation import Json_evaluation,log
-from include.Variable import __syncFile__,__webServerStopCmd__,__webServerSeachCmd__,__webServerStartCmd__,__webServerStartFile__,__installationDirName__,__linuxInstallationPath__,__guidePath__,__logPath__,__storagePath__,__logFile__,__schedulerSeachCmd__,__schedulerStopCmd__,__schedulerStartCmd__,__schedulerServiceName__,__uninstallRemoteCmd__
+from include.Variable import __syncFile__,__schedulerTimeStampFile__,__webServerStopCmd__,__webServerSeachCmd__,__webServerStartCmd__,__webServerStartFile__,__installationDirName__,__linuxInstallationPath__,__guidePath__,__logPath__,__storagePath__,__logFile__,__schedulerSeachCmd__,__schedulerStopCmd__,__schedulerStartCmd__,__schedulerServiceName__,__uninstallRemoteCmd__
 from paramiko import SSHClient
 import paramiko,socket
 from Generic import Generic
@@ -15,22 +15,22 @@ class Sync:
             pass
         except Exception as e:
             log("Error_Sync_addSync@"+str(e))
-    def sshCall(remote_dict):
+    def sshCall(remote_dict,logPath=__logPath__):
         try:
-            log("SSH Connecting.....")
+            log("SSH Connecting.....",path=logPath)
             ssh = SSHClient()
             ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             try:
                 success=ssh.connect(hostname=remote_dict["ip"],port=int(remote_dict["syncPort"]),username=remote_dict["syncUser"], password=remote_dict["syncPassword"],timeout=20)
                 if success==True:
-                    log("SSH connected")
+                    log("SSH connected",path=logPath)
             except paramiko.AuthenticationException  as e:
-                log("Error_Sync_AuthenticationException@"+str(e))
+                log("Error_Sync_AuthenticationException@"+str(e),path=logPath)
                 #print("connected")
 
             return ssh
         except (Exception,paramiko.SSHException,paramiko.AuthenticationException,paramiko.BadHostKeyException,socket.error)  as e:
-            log("Error_Sync_remoteSyncCall@"+str(e))
+            log("Error_Sync_remoteSyncCall@"+str(e),path=logPath)
 
     def installRemoteSSH(remote_dict):
         try:
@@ -164,9 +164,9 @@ class Sync:
         except (Exception,paramiko.SSHException,paramiko.AuthenticationException,paramiko.BadHostKeyException,socket.error)  as e:
             log("Error_Sync_remoteSyncCall@"+str(e))
             return -1
-    def remoteSearchSchedulerCall(remote_dict):
+    def remoteSearchSchedulerCall(remote_dict,logPath=__logPath__):
         try:
-            ssh=Sync.sshCall(remote_dict)
+            ssh=Sync.sshCall(remote_dict,logPath=logPath)
             try:
                 stdin, stdout, stderr = ssh.exec_command(__schedulerSeachCmd__)
                 output=stdout.read().decode("utf-8")
@@ -178,7 +178,7 @@ class Sync:
 
                 #ftp_client.mkdir(__installationDirName__)
             except IOError as e:
-                log("Error_Sync_CmdError@"+str(e))
+                log("Error_Sync_CmdError@"+str(e),path=logPath)
                 return -1
 
 
@@ -320,9 +320,9 @@ class Sync:
         except (Exception,paramiko.SSHException,paramiko.AuthenticationException,paramiko.BadHostKeyException,socket.error)  as e:
             log("Error_Sync_stopScheduler@"+str(e))
             return -1
-    def remoteSearchSchedulerCall(remote_dict):
+    def remoteSearchSchedulerCall(remote_dict,logPath=__logPath__):
         try:
-            ssh=Sync.sshCall(remote_dict)
+            ssh=Sync.sshCall(remote_dict,logPath=logPath)
             try:
                 stdin, stdout, stderr = ssh.exec_command(__schedulerSeachCmd__)
                 output=stdout.read().decode("utf-8")
@@ -378,6 +378,7 @@ class Sync:
                 #ftp_client.get(__installationDirName__+pathConnector+__logPath__+pathConnector+__logFile__,"log.txt")
 
                 #ftp_client.mkdir(__installationDirName__)
+                #Sync.setSchedulerTimeStap("OFF")
                 return 1
             except (IOError,Exception) as e:
                 log("Error_Sync_stopScheduler_CmdError@"+str(e))
@@ -424,3 +425,18 @@ class Sync:
         except (Exception,paramiko.SSHException,paramiko.AuthenticationException,paramiko.BadHostKeyException,socket.error)  as e:
             log("Error_Sync_remoteName@"+str(e))
             return -1
+
+ 
+    def getSchedulerStatus(remote_dict,path=__guidePath__,logPath=__logPath__):
+        try:
+            #dateTime=Generic.getDateTime()
+            status="OFF"
+            #print(len(Sync.remoteSearchSchedulerCall(remote_dict,logPath=logPath)))
+            if len(Sync.remoteSearchSchedulerCall(remote_dict,logPath=logPath))>1:
+                status="ON"
+            #print(status)
+            Json_evaluation.updateJson({"schedulerStatus":status},filename=__schedulerTimeStampFile__,path=path)
+           
+        except Exception as e:
+            log("Error_setSchedulerTimeStap"+str(e),path=logPath)
+    

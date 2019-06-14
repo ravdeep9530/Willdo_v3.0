@@ -173,13 +173,13 @@
       <table class="table table-bordered table-hover pull-left" style="background-color:white; box-shadow: 1px 1px 1px black;">
           
           <tbody>
-            <tr >
-              <td style="background-color:#145656; color:white;">Scheduler Status</td>
-              <td>//schedulerData['schedulerStatus']//</td>
+            <tr ng-init="schedulerData['schedulerStatus']='Loading....';schedulerData['schedulerTimeStamp']='Loading....';" >
+              <td style="background-color:#145656; color:white;" ><b>Scheduler Status</b></td>
+              <td >//schedulerData['schedulerStatus']//</td>
               
             </tr>
             <tr >
-              <td style="background-color:#145656; color:white;">Last Scheduler Start</td>
+              <td style="background-color:#145656; color:white;"><b>Last Scheduler Start</b></td>
               <td>//schedulerData['schedulerTimeStamp']//</td>
               
             </tr>

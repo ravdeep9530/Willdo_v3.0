@@ -9,6 +9,7 @@ from InsertConnection import insertConnection
 from Parameter import Parameter
 from Email import Email
 from History import History
+from Sync import Sync
 #from flask.ext.triangle import Triangle
 app = Flask(__name__)
 __path__="../../scheduler_guide"
@@ -92,6 +93,8 @@ def getRemoteList():
 @app.route('/getSchedulerDetail')
 def getSchedulerDetail():
     try:
+        remoteDict=Json_evaluation.getJsonByKey(filename=__syncFile__,key="susServer",path=__path__)
+        Sync.getSchedulerStatus(remoteDict,path=__path__,logPath=__logPath__)
         return jsonify(Json_evaluation.readJSON(path=__path__,filename=__schedulerTimeStampFile__))
     except Exception as e:
             return str(e), 500
