@@ -49,6 +49,7 @@ app.controller('WillDOCtrl', function ($scope, $http) {
     var edate = null;
     var sdate_edit = null;
     var edate_edit = null;
+    $scope.count1=30
     $scope.colors = ['', '', '#ff8989'];
 
 
@@ -476,7 +477,9 @@ app.controller('WillDOCtrl', function ($scope, $http) {
     $('.datepicker-1').datepicker({
     dateFormat: 'dd/mm/yy'
 });
-
+$scope.setCounter= function (count) {
+    $scope.count1=count;
+}
     //$scope.getFeedbackList();
 //     $scope.getIsolateReport = function (hid) {
 
@@ -1358,12 +1361,21 @@ var height = doc.internal.pageSize.height;
 //////////////////multiple select///////////////20
 
 ///Checking is Site On ////
-function checkSite() {
-  //  alert('d');
-     angular.element(document.getElementById('room_booking_form')).scope().getSetting();
-
+var count=30
+function checkStatus() {
+  //alert('d');
+  count-=1;
+  document.getElementById('count').innerHTML="<b>"+count+"s</b>";
+  //angular.element(document.getElementsByTagName('body')).scope().setCounter(count);
+    if(count==0)
+     {   
+         angular.element(document.getElementsByTagName('body')).scope().getJobQueue();
+         count=30
+        }
+     
+     setTimeout(checkStatus,2000)
 }
-setTimeout(checkSite,1000*60*5)
+setTimeout(checkStatus,5000)
 ////////////////////
 
 //Website zoom setup

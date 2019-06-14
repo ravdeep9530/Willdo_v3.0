@@ -165,7 +165,7 @@ class Job:
                     jobData["nextRunDate"]=Generic.getDate()
                 else:
                     jobData["nextRunTime"]=jobData["scheuledTime"]
-                    jobData["nextRunDate"]=Generic.dateToStr(Generic.addDate(Generic.strToDate(jobData["lastRunDate"]),interval))
+                    jobData["nextRunDate"]=Generic.dateToStr(Generic.addDate(Generic.strToDate(jobData["nextRunDate"]),interval))
             
             return jobData 
         except Exception as e:

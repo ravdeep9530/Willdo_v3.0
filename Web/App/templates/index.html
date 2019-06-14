@@ -116,7 +116,7 @@
     <div class="Row">
       <div class="col-sm-3">
     <div class=" panel   panel-default">
-      <div class="panel-heading"><b>Current Job Queue</b></div>
+      <div class="panel-heading" ng-init="count1='Loading....';"><b>Current Job Queue</b><span class="pull-right" ><b id="count">Loading....</b> <i class="fas fa-sync" style="cursor:pointer;" ng-click="getJobQueue()"> </i></span></div>
       <div class="table-responsive panel-body">
       <table class="table table-bordered table-hover pull-left" style="background-color:white; box-shadow: 1px 1px 1px black;">
           <thead>
@@ -927,7 +927,7 @@
            <option  value="4">Sql Procedure</option>
             <option  value="5">File Access</option>
      </select></div>
-   <div class="form-group col-sm-6" ng-init="getRemoteList()">
+   <div class="form-group col-sm-6" >
      <label for="pwd">Select Remote:</label>
      <select class="form-control"  name="remoteName" ng-disabled="d"  >
          <option ng-repeat="(key,data) in remoteData" value="//key//">//key//</option>
@@ -988,13 +988,13 @@
                 <label for="email">Job Name|Step Name:</label>
                 <input type="text" placeholder="job Name"  readonly ng-value="frData['steps']['stepName']" name="stepName" class="form-control" id="email" required>
               </div>
-              <div class="form-group col-sm-4" ng-init="getRemoteList()">
+              <div class="form-group col-sm-4" >
                 <label for="pwd">Select Parameter:</label>
                 <select class="form-control"  name="paramName"   >
                     <option ng-repeat="(key,data) in frData['steps']['paramDetail']" value="//data//">//data//</option>
                 </select>
                 </div>
-                <div class="form-group col-sm-4" ng-init="getRemoteList()">
+                <div class="form-group col-sm-4" >
                   <label for="pwd">Parameter Options:</label>
                   <select class="form-control"  name="paramOption"  >
                       <option ng-repeat="(key,data) in frData['steps']['paramOption']" value="//data//">//key//</option>
@@ -1033,7 +1033,7 @@
               
                
                 </div>
-                <div class="form-group col-sm-3" ng-init="getRemoteList()">
+                <div class="form-group col-sm-3" >
                   <label for="pwd">Parameter Options:</label>
                   <select class="form-control"  name="paramOption"  >
                       <option ng-repeat="(key,data) in frData['steps']['paramOption']" value="//data//">//key//</option>
