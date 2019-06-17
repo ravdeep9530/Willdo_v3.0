@@ -22,9 +22,10 @@ class ExecuteStep:
         except Exception as e:
             log("Error_ExecuteStep_evaluateStep@"+str(e))
 
-    def executeStep(step_name):
+    async def executeStep(step_name):
         try:
             data=ExecuteStep.evaluateStep(step_name)
+            
             try:
                 params=[]
                 try:
@@ -33,9 +34,12 @@ class ExecuteStep:
                     log("WARNING: Parameter is Empty with message ("+str(e)+")")
                 if len(data)<1:
                     return ""
-                con=connection(data["conName"])
+                #print(data)
+                
+                
                 if int(data["stepType"])==1 or int(data["stepType"])==4:
                     if data["statement"]!="":
+                        con=connection(data["conName"])
                         result=executeSql(con=con,q=str(data["statement"]),isProc=int(data["stepType"]))
 
                         if len(result)>0:
@@ -61,12 +65,16 @@ class ExecuteStep:
 
                 elif int(data["stepType"])==2:
                     #sprint(data["url"])
+                    
                     url=data["url"]
+                    
                     if len(paramData)>0:
-                        param=Parameter.getParamValue(params,3)
-                        if param!="-1":
+                        param=str(Parameter.getParamValue(params,3))
+                        if str(param)!="-1":
                             url=paramData[param]["paramValue"]
+                            
                     filename=Url.callApi(url=url,filename="")
+                    #print(filename)
                     if filename!="-1":
                         if len(paramData)>0:
                             param=Parameter.getParamValue(params,4)

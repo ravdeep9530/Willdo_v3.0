@@ -5,6 +5,7 @@ from datetime import date,datetime,time
 from operator import itemgetter
 from ExecuteStep import ExecuteStep
 from History import History
+import asyncio
 
 #job={{"name":"","conName":"","statement":"","interval":0,"scheuledTime":"","description":"","type":""}}
 class Job:
@@ -94,12 +95,12 @@ class Job:
             return steps
         except Exception as e:
             log("Error_Jobs_getStepsByJob@"+str(e))
-    def executeJob(job_name):
+    async def executeJob(job_name):
         try:
             steps=Job.getStepsByJob(job_name)
             for step in steps:
                 #print(str(step))
-                ExecuteStep.executeStep(str(step))
+                await ExecuteStep.executeStep(str(step))
             Job.lastRunUpdate(job_name)
         except Exception as e:
             log("Error_Jobs_executeJob@"+str(e))

@@ -119,7 +119,7 @@ def executeJob(nearestJobName,nearestJob):
         print(nearestJobName,nearestJob)
         if int(nearestJob[nearestJobName]["remainingSec"])==0:
             log(nearestJobName+" Job Execution has been started!!")
-            Job.executeJob(nearestJobName)
+            asyncio.run(Job.executeJob(nearestJobName))
     except Exception as e:
         log(" Warning: Scheduler is free- No job for this instance"+str(e))
 
