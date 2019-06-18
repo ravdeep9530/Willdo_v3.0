@@ -116,10 +116,13 @@ def getResult(q):
 
 def executeJob(nearestJobName,nearestJob):
     try:
-        print(nearestJobName,nearestJob)
+        #print(nearestJobName,nearestJob)
         if int(nearestJob[nearestJobName]["remainingSec"])==0:
             log(nearestJobName+" Job Execution has been started!!")
-            asyncio.run(Job.executeJob(nearestJobName))
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            loop.run_until_complete(Job.executeJob(nearestJobName))
+            
     except Exception as e:
         log(" Warning: Scheduler is free- No job for this instance"+str(e))
 
@@ -168,7 +171,7 @@ s = sched.scheduler(time.time, time.sleep)
 
 def setSchedulerTimeStap():
     try:
-        dateTime=Generic.getDateTime()
+        dateTime=Generic.currentTimestamp()
         Json_evaluation.updateJson({"schedulerTimeStamp":str(dateTime),"schedulerStatus":"ON"},filename=__schedulerTimeStampFile__)
         log("Scheduler Restarted at "+str(dateTime))
         

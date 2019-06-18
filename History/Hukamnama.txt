@@ -120,3 +120,15 @@
 2019-06-17 18:26:12.875000=>Job has been updated!!
 2019-06-17 18:26:43.301084=>Success_Execute Step Hukamnama|Download under JOB Hukamnama With connection Willdo
 2019-06-17 18:26:43.695163=>Error_Execute Step Hukamnama|HukamNama_email under JOB Hukamnama With connection Willdo
+2019-06-18 00:25:00.627508=>Job has been updated!!
+2019-06-18 00:56:36.205347=>Job has been updated!!
+2019-06-18 00:59:14.918965=>Job has been updated!!
+2019-06-18 01:02:16.219083=>Job has been updated!!
+2019-06-18 01:02:22.610014=>Success_Execute Step Hukamnama|Download under JOB Hukamnama With connection Willdo
+2019-06-18 01:02:28.104642=>Success_Execute Step Hukamnama|HukamNama_email under JOB Hukamnama With connection Willdo
+2019-06-18 01:03:42.951703=>Job has been updated!!
+2019-06-18 01:03:46.736218=>Success_Execute Step Hukamnama|Download under JOB Hukamnama With connection Willdo
+2019-06-18 01:03:51.848675=>Success_Execute Step Hukamnama|HukamNama_email under JOB Hukamnama With connection Willdo
+2019-06-18 01:04:30.285704=>Job has been updated!!
+2019-06-18 01:04:34.093812=>Success_Execute Step Hukamnama|Download under JOB Hukamnama With connection Willdo
+2019-06-18 01:04:39.053203=>Success_Execute Step Hukamnama|HukamNama_email under JOB Hukamnama With connection Willdo
