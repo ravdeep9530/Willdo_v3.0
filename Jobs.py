@@ -6,6 +6,7 @@ from operator import itemgetter
 from ExecuteStep import ExecuteStep
 from History import History
 import asyncio
+from Notification import Notification
 
 #job={{"name":"","conName":"","statement":"","interval":0,"scheuledTime":"","description":"","type":""}}
 class Job:
@@ -101,6 +102,7 @@ class Job:
                 #print(str(step))
                 await ExecuteStep.executeStep(str(step))
             Job.lastRunUpdate(job_name)
+            Job.notificationJobAction(job_name)
         except Exception as e:
             log("Error_Jobs_executeJob@"+str(e))
     def lastRunUpdate(jobName):
@@ -187,7 +189,10 @@ class Job:
         except Exception as e:
             log("Error_Jobs_isJobEligibleToRun@"+str(e)) 
             return 0
-
+    def notificationJobAction(jobName):
+        Notification.twilioWhatsAppAPI(jobName+" has executed Successfully!! \n *WillDo*")
+        
+        pass
     #def prepareJobSteps(job_name):
         #steps[]
 

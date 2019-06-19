@@ -58,7 +58,7 @@ class ExecuteStep:
                                     paramData[param]["paramValue"]=""
                                     for r in result:
                                         for rr in r:
-                                            paramData[param]["paramValue"]+=rr[0]+"~"
+                                            paramData[param]["paramValue"]+=rr
                                         paramData[param]["paramValue"]+="|"
                                     paramData_final={param[:-1]:paramData[param]}
                                     Json_evaluation.updateJson(dict=paramData_final,filename=__parameterFile__)

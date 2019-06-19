@@ -1,0 +1,5 @@
+2019-06-19 23:46:01.236025=>Job Created!!
+2019-06-19 23:54:19.707266=>Job has been updated!!
+2019-06-19 23:54:36.051774=>Success_Execute Step WorkSpace_Backup|mssqlServer_PCall under JOB WorkSpace_Backup With connection mssql
+2019-06-19 23:55:05.016646=>Success_Execute Step WorkSpace_Backup|RemoteCallToDownloadFile under JOB WorkSpace_Backup With connection mssql
+2019-06-19 23:56:07.480652=>Success_Execute Step WorkSpace_Backup|EmailDownloadedFiles under JOB WorkSpace_Backup With connection mssql

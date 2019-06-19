@@ -36,3 +36,6 @@
 2019-06-17 15:18:00.104800=>Job has been updated!!
 2019-06-17 15:19:02.549800=>Error_Execute Step Epic|emailTest under JOB Epic With connection mssql
 2019-06-17 15:55:25.343800=>Job has been updated!!
+2019-06-19 23:38:54.426737=>Job has been updated!!
+2019-06-19 23:40:27.643314=>Job has been updated!!
+2019-06-19 23:40:38.948001=>Success_Execute Step Epic|emailTest under JOB Epic With connection mssql

@@ -35,6 +35,7 @@ def executeSql(con,q="Select 'Willdo'",isProc=0):
         result=[]
         #con.execute('EXEC S_Daily_Executeshell_workspace')
         #con.execute_(q)
+        con.autocommit(True)
         cur = con.cursor()
         #cur.execute('EXEC S_Daily_Executeshell_workspace;')
 

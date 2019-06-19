@@ -62,3 +62,15 @@
 2019-06-11 23:55:28.871445=>Success_Execute Step Testing|mssqql_hit under JOB Testing With connection mssql
 2019-06-11 23:55:56.317539=>Success_Execute Step Testing|downloadFile under JOB Testing With connection mssql
 2019-06-11 23:57:02.327643=>Success_Execute Step Testing|EmailTome under JOB Testing With connection mssql
+2019-06-19 23:41:35.905133=>Job has been updated!!
+2019-06-19 23:41:51.932319=>Success_Execute Step Testing|mssqql_hit under JOB Testing With connection mssql
+2019-06-19 23:42:21.218804=>Success_Execute Step Testing|downloadFile under JOB Testing With connection mssql
+2019-06-19 23:42:28.169795=>Job has been updated!!
+2019-06-19 23:42:53.463438=>Success_Execute Step Testing|mssqql_hit under JOB Testing With connection mssql
+2019-06-19 23:44:17.035960=>Error_Execute Step Testing|downloadFile under JOB Testing With connection mssql
+2019-06-19 23:44:24.629143=>Success_Execute Step Testing|EmailTome under JOB Testing With connection mssql
+2019-06-19 23:51:24.620708=>Job has been updated!!
+2019-06-19 23:51:42.781233=>Job has been updated!!
+2019-06-19 23:51:51.676937=>Success_Execute Step Testing|mssqql_hit under JOB Testing With connection mssql
+2019-06-19 23:52:27.592338=>Success_Execute Step Testing|downloadFile under JOB Testing With connection mssql
+2019-06-19 23:53:33.086469=>Success_Execute Step Testing|EmailTome under JOB Testing With connection mssql
