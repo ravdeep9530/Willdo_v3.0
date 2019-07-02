@@ -10,11 +10,25 @@ from Parameter import Parameter
 from Email import Email
 from History import History
 from Sync import Sync
+from flask_jwt import JWT, jwt_required, current_identity
 #from flask.ext.triangle import Triangle
 app = Flask(__name__)
 __path__="../../scheduler_guide"
 __historyPath__="../../History"
 __logPath__="../../Log"
+app.config['SECRET_KEY'] = 'super-secret'
+USER_DATA = {
+    "masnun": "abc123"
+}
+
+
+class User(object):
+    def __init__(self, id):
+        self.id = id
+
+    def __str__(self):
+        return "User(id='%s')" % self.id
+
 #Triangle(app)
 #jinja_options = app.jinja_options.copy()
 
@@ -28,10 +42,39 @@ __logPath__="../../Log"
 #))
 #app.jinja_options = jinja_options
 
+@app.route('/authenticateSSO/<hash>/<validateUrl>')
+def authenticateSSO(hash,validateUrl):
+    resp = request.get(validateUrl, stream=True)
+    return resp.raw.read()
+    pass
+
+
+
+
+
+
+def verify(username, password):
+    if not (username and password):
+        return False
+    else:
+        resp = request.get("", stream=True)
+        return resp.raw.read()
+    if USER_DATA.get(username) == password:
+        return User(id=123)
+def identity(payload):
+    user_id = payload['identity']
+    print(user_id)
+    return {"id": user_id}
+jwt = JWT(app, verify, identity)
+@app.route('/protected')
+@jwt_required()
+def protected():
+    return '%s' % current_identity
 @app.route('/home')
+@jwt_required()
 def home():
     try:
-        return render_template('index.html')
+        return '%s' % current_identity#render_template('index.html')
     except Exception as e:
             return str(e), 500
 @app.route('/getJobQueue')
