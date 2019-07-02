@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0,'../../')
 import json
-from flask import Flask,render_template,jsonify,request
+from flask import Flask,render_template,jsonify,request,redirect
 from Json_evaluation import Json_evaluation,clearLog
 from Jobs import Job
 from include.Variable import __jobQueue__,__connectionFile__,__schedulerTimeStampFile__,__intervalFile__,__jobFile__,__driverFile__,__parameterFile__,__emailFile__,__syncFile__,__stepsFile__
@@ -10,6 +10,8 @@ from Parameter import Parameter
 from Email import Email
 from History import History
 from Sync import Sync
+from Url import Url
+import urllib.request
 from flask_jwt import JWT, jwt_required, current_identity
 #from flask.ext.triangle import Triangle
 app = Flask(__name__)
@@ -42,10 +44,24 @@ class User(object):
 #))
 #app.jinja_options = jinja_options
 
-@app.route('/authenticateSSO/<hash>/<validateUrl>')
-def authenticateSSO(hash,validateUrl):
-    resp = request.get(validateUrl, stream=True)
-    return resp.raw.read()
+@app.route('/authenticateSSO')
+def authenticateSSO():
+    hash=request.args.get('hash') 
+    validateUrl=request.args.get('validateUrl') 
+    #return  validateUrl 
+    data=json.loads(Url.urlRequest(validateUrl).read())
+    print(data["data"][0]["isLive"])
+    if data["data"][0]["isLive"]==False:
+        return redirect('http://localhost:8080/getNextPage/0/?toast=SSO Session is expired. Please Login again.')
+    
+    else:
+        newConditions = {"username":"masnun","password":"abc123"} 
+        params = json.dumps(newConditions).encode('utf8')
+        req = urllib.request.Request("http://localhost:8000/auth", data=params,
+                             headers={'content-type': 'application/json'})
+        response = urllib.request.urlopen(req)
+        return response.read()
+    return jsonify(data["data"][0]["isLive"])
     pass
 
 
@@ -56,9 +72,6 @@ def authenticateSSO(hash,validateUrl):
 def verify(username, password):
     if not (username and password):
         return False
-    else:
-        resp = request.get("", stream=True)
-        return resp.raw.read()
     if USER_DATA.get(username) == password:
         return User(id=123)
 def identity(payload):

@@ -30,3 +30,5 @@ class Url:
         except Exception as e:
             log("Error_Url_callApi@"+str(e))
             return "-1"
+    def urlRequest(url):
+        return urllib.request.urlopen(url)
