@@ -18,7 +18,7 @@ app = Flask(__name__)
 __path__="../../scheduler_guide"
 __historyPath__="../../History"
 __logPath__="../../Log"
-
+app.config['JWT_AUTH_HEADER_PREFIX']="JWT"
 app.config["Authorization"]=""
 app.config['SECRET_KEY'] = 'super-secret'
 USER_DATA = {
@@ -69,10 +69,10 @@ def authenticateSSO():
         #resp.headers("Authorization","JWT "+data["access_token"])
         #resp.location(url_for('protected'))
         r=make_response(render_template('protected.html'))
-        app.config["Authorization"]="JWT "+data["access_token"]
+        #app.config["Authorization"]="JWT "+data["access_token"].strip()
         #r.headers["Content-Type"]="application/json"
-        r.headers["Authorization"]=app.config["Authorization"].encode('utf-8')
-        r.set_cookie('Authorization', app.config["Authorization"].encode('utf-8'))
+        #r.headers["Authorization"]=app.config["Authorization"].encode('utf-8')
+        r.set_cookie('Authorization', str('JWT '+data["access_token"].strip()))#.encode('utf-8'))
         #r.headers["Cdd"]="applicatio"
         return r#edirect('/protected',code=302)
     return jsonify(data["data"][0]["isLive"])
@@ -80,8 +80,8 @@ def authenticateSSO():
 @app.after_request
 def apply_caching(response):
     #response.headers["Content-Type"]="application/json"
-    response.headers["Authorization"]=app.config["Authorization"].encode('utf-8')
-    response.headers['Access-Control-Allow-Origin'] = '*'
+    #response.headers["Authorization"]=app.config["Authorization"].encode('utf-8')
+    #response.headers['Access-Control-Allow-Origin'] = '*'
     return response
 
 
