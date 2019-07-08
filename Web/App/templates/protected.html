@@ -1,0 +1,34 @@
+<script>
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+function httpGet(url,key){
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", url, true );
+    xmlHttp.setRequestHeader("Authorization",key);
+    xmlHttp.setRequestHeader("Content-Type","application/json");
+    xmlHttp.setRequestHeader("Access-Control-Allow-Origin","*");
+    xmlHttp.setRequestHeader("Access-Control-Allow-Headers","*");
+    xmlHttp.setRequestHeader("Access-Control-Allow-Credentials","true");
+    xmlHttp.send(null);
+   // window.location.href="/home";
+    return xmlHttp.responseText;
+
+}
+alert(getCookie("Authorization"));
+httpGet("/home",getCookie("Authorization"));
+</script>

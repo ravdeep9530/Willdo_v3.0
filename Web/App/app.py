@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0,'../../')
 import json
-from flask import Flask,render_template,jsonify,request,redirect
+from flask import Flask,render_template,jsonify,request,redirect,make_response,url_for
 from Json_evaluation import Json_evaluation,clearLog
 from Jobs import Job
 from include.Variable import __jobQueue__,__connectionFile__,__schedulerTimeStampFile__,__intervalFile__,__jobFile__,__driverFile__,__parameterFile__,__emailFile__,__syncFile__,__stepsFile__
@@ -18,6 +18,8 @@ app = Flask(__name__)
 __path__="../../scheduler_guide"
 __historyPath__="../../History"
 __logPath__="../../Log"
+
+app.config["Authorization"]=""
 app.config['SECRET_KEY'] = 'super-secret'
 USER_DATA = {
     "masnun": "abc123"
@@ -50,7 +52,7 @@ def authenticateSSO():
     validateUrl=request.args.get('validateUrl') 
     #return  validateUrl 
     data=json.loads(Url.urlRequest(validateUrl).read())
-    print(data["data"][0]["isLive"])
+    
     if data["data"][0]["isLive"]==False:
         return redirect('http://localhost:8080/getNextPage/0/?toast=SSO Session is expired. Please Login again.')
     
@@ -60,11 +62,27 @@ def authenticateSSO():
         req = urllib.request.Request("http://localhost:8000/auth", data=params,
                              headers={'content-type': 'application/json'})
         response = urllib.request.urlopen(req)
-        return response.read()
+        data=response.read().decode('utf-8')
+        data=json.loads(data)
+        resp=jsonify()
+        #return data["access_token"]
+        #resp.headers("Authorization","JWT "+data["access_token"])
+        #resp.location(url_for('protected'))
+        r=make_response(render_template('protected.html'))
+        app.config["Authorization"]="JWT "+data["access_token"]
+        #r.headers["Content-Type"]="application/json"
+        r.headers["Authorization"]=app.config["Authorization"].encode('utf-8')
+        r.set_cookie('Authorization', app.config["Authorization"].encode('utf-8'))
+        #r.headers["Cdd"]="applicatio"
+        return r#edirect('/protected',code=302)
     return jsonify(data["data"][0]["isLive"])
     pass
-
-
+@app.after_request
+def apply_caching(response):
+    #response.headers["Content-Type"]="application/json"
+    response.headers["Authorization"]=app.config["Authorization"].encode('utf-8')
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    return response
 
 
 
@@ -80,14 +98,16 @@ def identity(payload):
     return {"id": user_id}
 jwt = JWT(app, verify, identity)
 @app.route('/protected')
-@jwt_required()
+#@jwt_required()
 def protected():
+    
     return '%s' % current_identity
 @app.route('/home')
 @jwt_required()
 def home():
     try:
-        return '%s' % current_identity#render_template('index.html')
+        print(request.headers.get('Authorization'))
+        return render_template('index.html')
     except Exception as e:
             return str(e), 500
 @app.route('/getJobQueue')
@@ -283,6 +303,6 @@ def deleteJson(fileName,key):
 def hello_name(user):
 
    return render_template('index.html', name = user)
-
+#app.debug=True;
 if __name__ == '__main__':
    app.run(host='0.0.0.0',port=8000)
