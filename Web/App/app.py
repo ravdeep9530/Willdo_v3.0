@@ -68,7 +68,7 @@ def authenticateSSO():
         #return data["access_token"]
         #resp.headers("Authorization","JWT "+data["access_token"])
         #resp.location(url_for('protected'))
-        r=make_response(render_template('protected.html'))
+        r=make_response(redirect('/home'))
         #app.config["Authorization"]="JWT "+data["access_token"].strip()
         #r.headers["Content-Type"]="application/json"
         #r.headers["Authorization"]=app.config["Authorization"].encode('utf-8')
@@ -103,7 +103,7 @@ def protected():
     
     return '%s' % current_identity
 @app.route('/home')
-@jwt_required()
+
 def home():
     try:
         print(request.headers.get('Authorization'))
@@ -111,6 +111,7 @@ def home():
     except Exception as e:
             return str(e), 500
 @app.route('/getJobQueue')
+@jwt_required()
 def getJobQueue():
     #return ""
     try:
@@ -118,6 +119,7 @@ def getJobQueue():
     except Exception as e:
             return str(e), 500
 @app.route('/getActiveJobs')
+@jwt_required()
 def getActiveJobs():
     #return ""
     try:
@@ -125,48 +127,56 @@ def getActiveJobs():
     except Exception as e:
             return str(e), 500
 @app.route('/getConList')
+@jwt_required()
 def getConList():
     try:
         return jsonify(Json_evaluation.readJSON(path=__path__,filename=__connectionFile__))
     except Exception as e:
             return str(e), 500
 @app.route('/getIntervalList')
+@jwt_required()
 def getIntervalList():
     try:
         return jsonify(Json_evaluation.readJSON(path=__path__,filename=__intervalFile__))
     except Exception as e:
             return str(e), 500
 @app.route('/getDriverList')
+@jwt_required()
 def getDriverList():
     try:
         return jsonify(Json_evaluation.readJSON(path=__path__,filename=__driverFile__))
     except Exception as e:
             return str(e), 500
 @app.route('/getJobList')
+@jwt_required()
 def getJobList():
     try:
         return jsonify(Json_evaluation.readJSON(path=__path__,filename=__jobFile__))
     except Exception as e:
             return str(e), 500
 @app.route('/getParamList')
+@jwt_required()
 def getParamList():
     try:
         return jsonify(Json_evaluation.readJSON(path=__path__,filename=__parameterFile__))
     except Exception as e:
             return str(e), 500
 @app.route('/getEmailList')
+@jwt_required()
 def getEmailList():
     try:
         return jsonify(Json_evaluation.readJSON(path=__path__,filename=__emailFile__))
     except Exception as e:
             return str(e), 500
 @app.route('/getRemoteList')
+@jwt_required()
 def getRemoteList():
     try:
         return jsonify(Json_evaluation.readJSON(path=__path__,filename=__syncFile__))
     except Exception as e:
             return str(e), 500
 @app.route('/getSchedulerDetail')
+@jwt_required()
 def getSchedulerDetail():
     try:
         remoteDict=Json_evaluation.getJsonByKey(filename=__syncFile__,key="susServer",path=__path__)
@@ -175,6 +185,7 @@ def getSchedulerDetail():
     except Exception as e:
             return str(e), 500
 @app.route('/clearLog')
+@jwt_required()
 def clearLog():
     try:
         clearLog(path=__logPath__)
@@ -182,12 +193,14 @@ def clearLog():
     except Exception as e:
             return str(e), 500
 @app.route('/getStepList/<jobName>')
+@jwt_required()
 def getStepList(jobName):
     try:
         return jsonify(Job.getStepsByJob(jobName,path=__path__))
     except Exception as e:
             return str(e), 500
 @app.route('/getStepParamList/<jobName>/<stepName>')
+@jwt_required()
 def getStepParamList(jobName,stepName):
     try:
         paramDetail=Parameter.getParamByJob(jobName,path=__path__)
@@ -199,12 +212,14 @@ def getStepParamList(jobName,stepName):
     except Exception as e:
             return str(e), 500
 @app.route('/getInbuitParamList/<stepName>')
+@jwt_required()
 def getInbuitParamList(stepName):
     try:
         return jsonify(Parameter.getInbuiltParam(stepName,path=__path__))
     except Exception as e:
             return str(e), 500
 @app.route('/getJson/<file>/<key>')
+@jwt_required()
 def getJson(file,key):
     try:
     #return ""
@@ -218,6 +233,7 @@ def getJson(file,key):
     except Exception as e:
             return str(e), 500
 @app.route('/submitForm/<formName>/<masterName>', methods=['POST'])
+@jwt_required()
 def submitForm(formName,masterName):
     if request.method=='POST':
         result_dict=request.form.to_dict(flat=True)
@@ -279,6 +295,7 @@ def submitForm(formName,masterName):
         return "<h2>Success</h2>"
 
 @app.route('/deleteJson/<fileName>/<key>')
+@jwt_required()
 def deleteJson(fileName,key):
     try:
         if fileName=='Jobs':
@@ -298,6 +315,12 @@ def deleteJson(fileName,key):
             return key+" Step deleted Successfully!!"
     except Exception as e:
             return str(e), 500
+
+@app.route('/logout')
+def logout():
+    resp=make_response(redirect('http://localhost:8080/admin'))
+    resp.delete_cookie('Authorization')
+    return resp
 
 @app.route('/hello/<user>')
 def hello_name(user):

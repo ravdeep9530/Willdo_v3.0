@@ -45,14 +45,14 @@ app.controller('WillDOCtrl', function ($scope, $http) {
     var ldData = {};
     var frData = {};
     var fdData = {};
-    var sdate = null;
+    var authCookiee = getCookie("Authorization").replace('"','').replace('"','');
     var edate = null;
     var sdate_edit = null;
     var edate_edit = null;
     $scope.count1=30
     $scope.colors = ['', '', '#ff8989'];
 
-
+    
     // $scope.search = function (id) {
 
     //     id = $('#acc').val();
@@ -102,7 +102,8 @@ app.controller('WillDOCtrl', function ($scope, $http) {
 //     }
     $scope.getJobQueue = function () {
 
-        $http.get("getJobQueue").then(function (response) {
+        $http.get("getJobQueue",{
+            headers: {'Authorization':authCookiee}}).then(function (response) {
             $scope.ghData = response.data;
             //alert(JSON.stringify($scope.ghData))
 
@@ -115,7 +116,8 @@ app.controller('WillDOCtrl', function ($scope, $http) {
     $scope.getJobQueue()
     $scope.getActiveJobs = function () {
 
-        $http.get("getActiveJobs").then(function (response) {
+        $http.get("getActiveJobs",{
+            headers: {'Authorization':authCookiee}}).then(function (response) {
             $scope.activeJobData = response.data;
             //alert(JSON.stringify($scope.ghData))
 
@@ -128,7 +130,8 @@ app.controller('WillDOCtrl', function ($scope, $http) {
     $scope.getActiveJobs()
     $scope.getConList = function () {
 
-        $http.get("getConList").then(function (response) {
+        $http.get("getConList",{
+            headers: {'Authorization':authCookiee}}).then(function (response) {
             $scope.conData = response.data;
             //alert(JSON.stringify($scope.conData))
 
@@ -140,7 +143,8 @@ app.controller('WillDOCtrl', function ($scope, $http) {
     }
     $scope.getIntervalList = function () {
 
-        $http.get("getIntervalList").then(function (response) {
+        $http.get("getIntervalList",{
+            headers: {'Authorization':authCookiee}}).then(function (response) {
             $scope.intData = response.data;
             //alert(JSON.stringify($scope.intData))
 
@@ -152,7 +156,8 @@ app.controller('WillDOCtrl', function ($scope, $http) {
     }
     $scope.getDriverList = function () {
 
-        $http.get("getDriverList").then(function (response) {
+        $http.get("getDriverList",{
+            headers: {'Authorization':authCookiee}}).then(function (response) {
             $scope.driverData = response.data;
             //alert(JSON.stringify($scope.intData))
 
@@ -164,7 +169,8 @@ app.controller('WillDOCtrl', function ($scope, $http) {
     }
     $scope.getJobList = function () {
 
-        $http.get("getJobList").then(function (response) {
+        $http.get("getJobList",{
+            headers: {'Authorization':authCookiee}}).then(function (response) {
             $scope.jobData = response.data;
             //alert(JSON.stringify($scope.jobData))
 
@@ -176,7 +182,8 @@ app.controller('WillDOCtrl', function ($scope, $http) {
     }
     $scope.getParamList = function () {
 
-        $http.get("getParamList").then(function (response) {
+        $http.get("getParamList",{
+            headers: {'Authorization':authCookiee}}).then(function (response) {
             $scope.paramData = response.data;
             //alert(JSON.stringify($scope.jobData))
 
@@ -188,7 +195,8 @@ app.controller('WillDOCtrl', function ($scope, $http) {
     }
     $scope.getEmailList = function () {
 
-        $http.get("getEmailList").then(function (response) {
+        $http.get("getEmailList",{
+            headers: {'Authorization':authCookiee}}).then(function (response) {
             $scope.emailData = response.data;
             //alert(JSON.stringify($scope.jobData))
 
@@ -200,7 +208,8 @@ app.controller('WillDOCtrl', function ($scope, $http) {
     }
     $scope.getRemoteList = function () {
 
-        $http.get("getRemoteList").then(function (response) {
+        $http.get("getRemoteList",{
+            headers: {'Authorization':authCookiee}}).then(function (response) {
             $scope.remoteData = response.data;
             //alert(JSON.stringify($scope.jobData))
 
@@ -212,7 +221,8 @@ app.controller('WillDOCtrl', function ($scope, $http) {
     }
     $scope.clearLog = function () {
         showLoad()
-        $http.get("clearLog").then(function (response) {
+        $http.get("clearLog",{
+            headers: {'Authorization':authCookiee}}).then(function (response) {
            // $scope.remoteData = response.data;
             alert(JSON.stringify(response.data))
             hideLoad()
@@ -231,7 +241,8 @@ app.controller('WillDOCtrl', function ($scope, $http) {
       $scope.stepJobName=jobName;
 
     }
-        $http.get("getStepList/"+$scope.stepJobName).then(function (response) {
+        $http.get("getStepList/"+$scope.stepJobName,{
+            headers: {'Authorization':authCookiee}}).then(function (response) {
             $scope.stepData = response.data;
             $scope.stepNo=(Object.keys(response.data).length)+1
 
@@ -246,7 +257,8 @@ app.controller('WillDOCtrl', function ($scope, $http) {
     }
     $scope.getStepParamList = function (stepName,form_id) {
         //$scope.getInbuitParamList(stepName)
-        $http.get("getStepParamList/"+$scope.stepJobName+"/"+stepName).then(function (response) {
+        $http.get("getStepParamList/"+$scope.stepJobName+"/"+stepName,{
+            headers: {'Authorization':authCookiee}}).then(function (response) {
           //alert(JSON.stringify(response.data))
           frData['steps']=response.data;
           frData['steps']['stepName']=stepName
@@ -264,7 +276,8 @@ app.controller('WillDOCtrl', function ($scope, $http) {
     }
     $scope.getInbuitParamList = function (stepName) {
 
-        $http.get("getInbuitParamList/"+stepName).then(function (response) {
+        $http.get("getInbuitParamList/"+stepName,{
+            headers: {'Authorization':authCookiee}}).then(function (response) {
           //alert(JSON.stringify(response.data))
           frData['inBuiltParam']=response.data;
           //frData['steps']['stepName']=stepName
@@ -282,7 +295,8 @@ app.controller('WillDOCtrl', function ($scope, $http) {
     }
     $scope.getSchedulerDetail = function () {
 
-        $http.get("getSchedulerDetail").then(function (response) {
+        $http.get("getSchedulerDetail",{
+            headers: {'Authorization':authCookiee}}).then(function (response) {
           //alert(JSON.stringify(response.data))
           schedulerData=response.data;
           //frData['steps']['stepName']=stepName
@@ -302,7 +316,8 @@ app.controller('WillDOCtrl', function ($scope, $http) {
     $scope.getJson = function (form_id,fileName,key,masterKey) {
         //alert("getJson/"+fileName+"/"+key)
           showLoad();
-        $http.get("getJson/"+fileName+"/"+key).then(function (response) {
+        $http.get("getJson/"+fileName+"/"+key,{
+            headers: {'Authorization':authCookiee}}).then(function (response) {
           if (fileName=='history')
           {
             frData[form_id]=response.data;
@@ -330,7 +345,8 @@ app.controller('WillDOCtrl', function ($scope, $http) {
         if(confirm("Are you sure?")!=1)
           return;
         showLoad();
-        $http.get("deleteJson/"+fileName+"/"+key).then(function (response) {
+        $http.get("deleteJson/"+fileName+"/"+key,{
+            headers: {'Authorization':authCookiee}}).then(function (response) {
         //  frData[form_id] = response.data;
           if(methodName!='')
           $scope.$eval(methodName)
@@ -381,7 +397,8 @@ app.controller('WillDOCtrl', function ($scope, $http) {
        $scope.getSetting = function () {
 
 
-        $http.get("/getSetting").then(function (response) {
+        $http.get("/getSetting",{
+            headers: {'Authorization':authCookiee}}).then(function (response) {
 
             if (JSON.stringify(response.data.data[0][0].is_on)==0)
                window.location.href="/";
@@ -1379,3 +1396,35 @@ setTimeout(checkStatus,5000)
 ////////////////////
 
 //Website zoom setup
+
+//********************************GETTING COOKIES SESSION VIA NAME******************************* */
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+  /*************************************END OF COOKIES SESSION************************************ */
+
+
+
+  /*************************************Verify Session IsLive************************************** */
+  function isSessionLive(){
+    if(getCookie("Authorization").replace('"','').replace('"','')=='')
+    { alert(getCookie("Authorization").replace('"','').replace('"',''))
+        alert('Your session is not valid. Please login again!!')
+        window.location.href="/logout"
+        setTimeout(isSessionLive,10000)
+    }
+  }
+  setTimeout(isSessionLive,2000)
+    /*************************************END Session IsLive************************************ */
