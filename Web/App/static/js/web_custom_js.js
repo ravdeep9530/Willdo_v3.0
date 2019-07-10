@@ -106,8 +106,10 @@ app.controller('WillDOCtrl', function ($scope, $http) {
             headers: {'Authorization':authCookiee}}).then(function (response) {
             $scope.ghData = response.data;
             //alert(JSON.stringify($scope.ghData))
+          
 
         }, function (response) {
+            
             //Second function handles error
             //alert('Something went wrong');
             $scope.content = "Something went wrong";
@@ -1420,10 +1422,10 @@ function getCookie(cname) {
   /*************************************Verify Session IsLive************************************** */
   function isSessionLive(){
     if(getCookie("Authorization").replace('"','').replace('"','')=='')
-    { alert(getCookie("Authorization").replace('"','').replace('"',''))
+    { 
         alert('Your session is not valid. Please login again!!')
         window.location.href="/logout"
-        setTimeout(isSessionLive,10000)
+        //setTimeout(isSessionLive,10000)
     }
   }
   setTimeout(isSessionLive,2000)
