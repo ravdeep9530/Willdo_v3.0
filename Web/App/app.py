@@ -2,9 +2,9 @@ import sys
 sys.path.insert(0,'../../')
 import json
 from flask import Flask,render_template,jsonify,request,redirect,make_response,url_for
-from Json_evaluation import Json_evaluation,clearLog
+from Json_evaluation import Json_evaluation,clearLog,getErrorLog
 from Jobs import Job
-from include.Variable import __jobQueue__,__connectionFile__,__schedulerTimeStampFile__,__intervalFile__,__jobFile__,__driverFile__,__parameterFile__,__emailFile__,__syncFile__,__stepsFile__
+from include.Variable import __jobQueue__,__connectionFile__,__schedulerTimeStampFile__,__intervalFile__,__jobFile__,__driverFile__,__parameterFile__,__emailFile__,__syncFile__,__stepsFile__,__logFile__
 from InsertConnection import insertConnection
 from Parameter import Parameter
 from Email import Email
@@ -138,6 +138,13 @@ def getConList():
 def getIntervalList():
     try:
         return jsonify(Json_evaluation.readJSON(path=__path__,filename=__intervalFile__))
+    except Exception as e:
+            return str(e), 500
+@app.route('/getJobError')
+@jwt_required()
+def getJobError():
+    try:
+        return jsonify(getErrorLog(path=__logPath__,filename=__logFile__))
     except Exception as e:
             return str(e), 500
 @app.route('/getDriverList')

@@ -1,4 +1,3 @@
-
 function submitForm(form)
 {
 
@@ -106,10 +105,8 @@ app.controller('WillDOCtrl', function ($scope, $http) {
             headers: {'Authorization':authCookiee}}).then(function (response) {
             $scope.ghData = response.data;
             //alert(JSON.stringify($scope.ghData))
-          
 
         }, function (response) {
-            
             //Second function handles error
             //alert('Something went wrong');
             $scope.content = "Something went wrong";
@@ -156,6 +153,21 @@ app.controller('WillDOCtrl', function ($scope, $http) {
             $scope.content = "Something went wrong";
         });
     }
+
+    $scope.getJobError = function () {
+
+        $http.get("getJobError",{
+            headers: {'Authorization':authCookiee}}).then(function (response) {
+            $scope.errorData = response.data;
+            //alert(JSON.stringify($scope.intData))
+
+        }, function (response) {
+            //Second function handles error
+            //alert('Something went wrong');
+            $scope.content = "Something went wrong";
+        });
+    }
+    $scope.getJobError();
     $scope.getDriverList = function () {
 
         $http.get("getDriverList",{
@@ -1425,8 +1437,10 @@ function getCookie(cname) {
     { 
         alert('Your session is not valid. Please login again!!')
         window.location.href="/logout"
-        //setTimeout(isSessionLive,10000)
+        setTimeout(isSessionLive,10000)
     }
   }
   setTimeout(isSessionLive,2000)
     /*************************************END Session IsLive************************************ */
+
+    

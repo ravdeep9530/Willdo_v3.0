@@ -79,3 +79,27 @@ def clearLog(data="",path=__logPath__,filename=__logFile__):
             print(data, file=txtfile)
     except Exception as e:
         log("Error_C_clearLog"+str(e))
+def getErrorLog(path=__logPath__,filename=__logFile__):
+    try:
+        
+        #data=str(datetime.datetime.now())+"=>"+data
+        resultDir={}
+        fileData=Json_evaluation.readFile(path+"/"+filename)
+        jobName=''
+        for line in fileData.split('\n'):
+            if 'Execution' in line:
+                tJob=line.split('=>')
+                jobName=tJob[1].split(' ')[0]
+
+            if 'Error' in str(line):
+                tempLine=line.split('=>')
+                resultDir[tempLine[0]]={"jobName":jobName,"desp":tempLine[1]}
+                jobName=''
+
+        print(resultDir)
+        return resultDir
+    except Exception as e:
+        print(str(e))
+        return {"":"None"}
+        
+        log("Error_C_getErrorLog"+str(e))
