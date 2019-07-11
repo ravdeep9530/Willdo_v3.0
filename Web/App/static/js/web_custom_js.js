@@ -12,6 +12,7 @@ function submitForm(form)
   $.ajax({
       type: 'POST',
       url: form.action,
+      headers: {'Authorization':getCookie("Authorization").replace('"','').replace('"','')},
 
       data: json,
       success: function (data1) {
@@ -168,6 +169,21 @@ app.controller('WillDOCtrl', function ($scope, $http) {
         });
     }
     $scope.getJobError();
+    $scope.getCurrentLog = function () {
+
+        $http.get("getCurrentLog",{
+            headers: {'Authorization':authCookiee}}).then(function (response) {
+            $scope.curLogData = response.data;
+            $scope.curLogData=JSON.stringify($scope.curLogData)
+            //alert(JSON.stringify($scope.curLogData))
+
+        }, function (response) {
+            //Second function handles error
+            //alert('Something went wrong');
+            $scope.content = "Something went wrong";
+        });
+    }
+    $scope.getCurrentLog();
     $scope.getDriverList = function () {
 
         $http.get("getDriverList",{

@@ -1,8 +1,8 @@
 import sys
 sys.path.insert(0,'../../')
 import json
-from flask import Flask,render_template,jsonify,request,redirect,make_response,url_for
-from Json_evaluation import Json_evaluation,clearLog,getErrorLog
+from flask import Flask,render_template,jsonify,request,redirect,make_response,url_for,session
+from Json_evaluation import Json_evaluation,clearLog,getErrorLog,getCurrentLog
 from Jobs import Job
 from include.Variable import __jobQueue__,__connectionFile__,__schedulerTimeStampFile__,__intervalFile__,__jobFile__,__driverFile__,__parameterFile__,__emailFile__,__syncFile__,__stepsFile__,__logFile__
 from InsertConnection import insertConnection
@@ -13,17 +13,17 @@ from Sync import Sync
 from Url import Url
 import urllib.request
 from flask_jwt import JWT, jwt_required, current_identity
+
 #from flask.ext.triangle import Triangle
 app = Flask(__name__)
 __path__="../../scheduler_guide"
 __historyPath__="../../History"
 __logPath__="../../Log"
+__ssoUrl__='http://localhost:8080'
 app.config['JWT_AUTH_HEADER_PREFIX']="JWT"
 app.config["Authorization"]=""
 app.config['SECRET_KEY'] = 'super-secret'
-USER_DATA = {
-    "masnun": "abc123"
-}
+USER_DATA = {"masnun": "abc123"}
 
 
 class User(object):
@@ -52,9 +52,9 @@ def authenticateSSO():
     validateUrl=request.args.get('validateUrl') 
     #return  validateUrl 
     data=json.loads(Url.urlRequest(validateUrl).read())
-    
+    userData={"uid":data["data"][0]['uid'],"uName":data["data"][0]['uName']}
     if data["data"][0]["isLive"]==False:
-        return redirect('http://localhost:8080/getNextPage/0/?toast=SSO Session is expired. Please Login again.')
+        return redirect(__ssoUrl__+'/getNextPage/0/?toast=SSO Session is expired. Please Login again.')
     
     else:
         newConditions = {"username":"masnun","password":"abc123"} 
@@ -72,7 +72,8 @@ def authenticateSSO():
         #app.config["Authorization"]="JWT "+data["access_token"].strip()
         #r.headers["Content-Type"]="application/json"
         #r.headers["Authorization"]=app.config["Authorization"].encode('utf-8')
-        r.set_cookie('Authorization', str('JWT '+data["access_token"].strip()))#.encode('utf-8'))
+        r.set_cookie('Authorization', str('JWT '+data["access_token"].strip()),max_age=60*30)#.encode('utf-8'))
+        session['uData']=userData
         #r.headers["Cdd"]="applicatio"
         return r#edirect('/protected',code=302)
     return jsonify(data["data"][0]["isLive"])
@@ -140,13 +141,22 @@ def getIntervalList():
         return jsonify(Json_evaluation.readJSON(path=__path__,filename=__intervalFile__))
     except Exception as e:
             return str(e), 500
+@app.route('/getCurrentLog')
+@jwt_required()
+def getCurrentLog2():
+    try:
+        return jsonify(getCurrentLog(path=__logPath__,filename=__logFile__))
+    except Exception as e:
+            return str(e), 500
 @app.route('/getJobError')
 @jwt_required()
 def getJobError():
     try:
+        
         return jsonify(getErrorLog(path=__logPath__,filename=__logFile__))
     except Exception as e:
             return str(e), 500
+
 @app.route('/getDriverList')
 @jwt_required()
 def getDriverList():

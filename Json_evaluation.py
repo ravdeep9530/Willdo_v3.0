@@ -96,10 +96,30 @@ def getErrorLog(path=__logPath__,filename=__logFile__):
                 resultDir[tempLine[0]]={"jobName":jobName,"desp":tempLine[1]}
                 jobName=''
 
-        print(resultDir)
+        
         return resultDir
     except Exception as e:
-        print(str(e))
+        
+        return {"":"None"}
+        
+        log("Error_C_getErrorLog"+str(e))
+def getCurrentLog(path=__logPath__,filename=__logFile__):
+    try:
+        
+        #data=str(datetime.datetime.now())+"=>"+data
+        resultDir={}
+        fileData=open(path+"/"+filename, "r")
+        lines=fileData.readlines()
+        fileData.close()
+        fileLen=len(lines)
+        for line in range(fileLen-5,fileLen):
+            
+            resultDir.update({lines[line]:""})
+            
+        
+        return resultDir
+    except Exception as e:
+        
         return {"":"None"}
         
         log("Error_C_getErrorLog"+str(e))
