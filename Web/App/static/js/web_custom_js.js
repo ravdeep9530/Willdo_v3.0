@@ -173,8 +173,16 @@ app.controller('WillDOCtrl', function ($scope, $http) {
 
         $http.get("getCurrentLog",{
             headers: {'Authorization':authCookiee}}).then(function (response) {
-            $scope.curLogData = response.data;
-            $scope.curLogData=JSON.stringify($scope.curLogData)
+            $scope.curLogData1 = response.data;
+            $scope.curLogData="";
+            for (i in $scope.curLogData1) {
+                if(typeof i === "undefined")
+                {continue}
+                else{
+                $scope.curLogData+=i;
+                }
+              }
+            //$scope.curLogData=JSON.stringify($scope.curLogData)
             //alert(JSON.stringify($scope.curLogData))
 
         }, function (response) {
@@ -1413,10 +1421,12 @@ function checkStatus() {
   //alert('d');
   count-=1;
   document.getElementById('count').innerHTML="<b>"+count+"s</b>";
+  document.getElementById('count2').innerHTML="<b>"+count+"s</b>";
   //angular.element(document.getElementsByTagName('body')).scope().setCounter(count);
     if(count==0)
      {   
          angular.element(document.getElementsByTagName('body')).scope().getJobQueue();
+         angular.element(document.getElementsByTagName('body')).scope().getCurrentLog();
          count=30
         }
      

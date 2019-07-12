@@ -112,7 +112,7 @@ def getCurrentLog(path=__logPath__,filename=__logFile__):
         lines=fileData.readlines()
         fileData.close()
         fileLen=len(lines)
-        for line in range(fileLen-5,fileLen):
+        for line in range(fileLen-10,fileLen):
             
             resultDir.update({lines[line]:""})
             
