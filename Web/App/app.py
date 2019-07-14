@@ -13,7 +13,7 @@ from Sync import Sync
 from Url import Url
 import urllib.request
 from flask_jwt import JWT, jwt_required, current_identity
-
+import datetime
 #from flask.ext.triangle import Triangle
 app = Flask(__name__)
 __path__="../../scheduler_guide"
@@ -23,6 +23,7 @@ __ssoUrl__='http://94.156.144.217:8081'
 app.config['JWT_AUTH_HEADER_PREFIX']="JWT"
 app.config["Authorization"]=""
 app.config['SECRET_KEY'] = 'super-secret'
+app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta(seconds=1200)
 USER_DATA = {"masnun": "abc123"}
 
 
