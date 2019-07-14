@@ -40,7 +40,7 @@ def executeSql(con,q="Select 'Willdo'",isProc=0):
         #cur.execute('EXEC S_Daily_Executeshell_workspace;')
 
         #con.execute_row('EXEC S_Daily_Executeshell_workspace;')
-
+        
         if isProc==4:
             q=q.split(' ')
             if len(q)>1:
@@ -50,8 +50,12 @@ def executeSql(con,q="Select 'Willdo'",isProc=0):
             else:
                 cur.execute(q[0])
         else:
-            #print('here')
-            result=cur.execute(q)
+            try:
+                result=cur.execute(str(q))
+            except Exception as e:
+                log("Error_SQL_Connection : "+str(e))
+
+            
         try:
             row = cur.fetchone()
             while row is not None:
@@ -59,7 +63,9 @@ def executeSql(con,q="Select 'Willdo'",isProc=0):
                 row = cur.fetchone()
         except Exception as e:
             log("WARNING: "+str(e))
+        
         con.commit()
+        
         cur.close()
         con.close()
         #print(result)

@@ -19,7 +19,7 @@ app = Flask(__name__)
 __path__="../../scheduler_guide"
 __historyPath__="../../History"
 __logPath__="../../Log"
-__ssoUrl__='http://localhost:8080'
+__ssoUrl__='http://94.156.144.217:8081'
 app.config['JWT_AUTH_HEADER_PREFIX']="JWT"
 app.config["Authorization"]=""
 app.config['SECRET_KEY'] = 'super-secret'
@@ -51,7 +51,7 @@ def authenticateSSO():
     hash=request.args.get('hash') 
     validateUrl=request.args.get('validateUrl') 
     #return  validateUrl 
-    data=json.loads(Url.urlRequest(validateUrl).read())
+    data=json.loads(Url.urlRequest(validateUrl).read().decode('utf-8'))
     userData={"uid":data["data"][0]['uid'],"uName":data["data"][0]['uName']}
     if data["data"][0]["isLive"]==False:
         return redirect(__ssoUrl__+'/getNextPage/0/?toast=SSO Session is expired. Please Login again.')
@@ -335,7 +335,7 @@ def deleteJson(fileName,key):
 
 @app.route('/logout')
 def logout():
-    resp=make_response(redirect('http://localhost:8080/admin'))
+    resp=make_response(redirect(__ssoUrl__+'/admin'))
     resp.delete_cookie('Authorization')
     return resp
 
